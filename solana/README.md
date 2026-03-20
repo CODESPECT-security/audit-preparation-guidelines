@@ -22,6 +22,27 @@ Consistent naming is a signal of code quality. Auditors reading well-named code 
 | Variables | `snake_case` | `user_balance` |
 | Error variants | `PascalCase` | `Unauthorized`, `ZeroAmount` |
 
+### Toolchain Version
+
+Pin your Rust, Anchor, and Solana CLI versions. Floating toolchains affect reproducibility — if the auditor's environment differs from yours, compilation or test results may differ too.
+
+Use `rust-toolchain.toml` to pin Rust:
+
+```toml
+[toolchain]
+channel = "1.79.0"
+```
+
+Pin Anchor and Solana CLI versions in your project README or `Makefile`:
+
+```bash
+# Reproduce the exact environment
+anchor --version   # anchor-cli 0.30.x
+solana --version   # solana-cli 1.18.x
+```
+
+Commit `rust-toolchain.toml` to your repository. Auditors will use it.
+
 ### Documentation Comments
 
 Every instruction and public account struct needs documentation comments. Auditors read these to understand your intent — a mismatch between comments and implementation is a finding.
@@ -147,14 +168,27 @@ let new_balance = vault.deposited
 let new_balance = vault.deposited + amount;
 ```
 
+### Upgrade Authority
+
+Every Solana program has an upgrade authority — the keypair that can modify the deployed bytecode. Auditors always ask about it. Have a clear answer.
+
+Document your program's upgrade authority disposition:
+
+- **Active upgrade key** — Who holds it? Is it a multisig? What is the threshold?
+- **Timelock** — Is there a delay between proposing and executing an upgrade?
+- **Immutable** — Have you burned the upgrade authority? If so, document when and provide the transaction signature.
+
+An undocumented or unrevoked upgrade authority is a common audit finding. If your protocol is intended to be immutable, burn the authority before the audit or state explicitly that this will happen at launch.
+
 ---
 
 ## 4. Testing Requirements
 
-| Metric | Minimum |
-|---|---|
-| Code path coverage | 90% |
-| Critical instructions | 100% |
+| Metric | Minimum | Target |
+|---|---|---|
+| Line coverage | 90% | 100% |
+| Branch coverage | 85% | 100% |
+| Critical instructions | 100% | 100% |
 
 **Test categories — all five are required:**
 

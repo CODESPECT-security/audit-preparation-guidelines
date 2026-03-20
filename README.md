@@ -1,6 +1,3 @@
-<!-- TODO: replace with actual logo asset once available -->
-<img src="./assets/logo.png" alt="CODESPECT" width="300" />
-
 # CODESPECT — Smart Contract Audit Preparation Guides
 
 **Billions lost to hacks. Millions more wasted on audits.**

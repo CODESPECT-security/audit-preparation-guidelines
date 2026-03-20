@@ -8,6 +8,7 @@ then work through the Solana-specific items below.
 ## Code Readiness
 
 - [ ] `anchor build` completes without errors or warnings
+- [ ] Toolchain versions pinned (`rust-toolchain.toml` committed, Anchor and Solana CLI versions documented)
 - [ ] All account constraints are explicit — no implicit trust
 - [ ] No TODO or placeholder instructions remain
 - [ ] PDA seeds are deterministic and documented for every account type

@@ -112,6 +112,7 @@ contract AuditReadyPatterns is ReentrancyGuard, Pausable, Ownable {
     // Pull over push: record pending payments, let recipients pull
     function _recordPayment(address recipient, uint256 amount) internal {
         pendingWithdrawals[recipient] += amount;
+        // (emits PaymentRecorded — see full example for event definition)
     }
 
     // Emergency stop: pause all operations if a vulnerability is discovered
@@ -192,7 +193,7 @@ If deploying to multiple EVM chains, list each target chain and document any beh
 | [Foundry](https://book.getfoundry.sh) | Primary development and testing framework — fast compilation, built-in fuzzing, fork testing |
 | [Hardhat](https://hardhat.org) | JavaScript-based environment with extensive plugin ecosystem |
 | [OpenZeppelin Contracts](https://docs.openzeppelin.com/contracts) | Battle-tested standard implementations — use these, don't reinvent them |
-| [Solmate](https://github.com/transmissions11/solmate) | Gas-optimized alternatives for performance-critical paths |
+| [Solmate](https://github.com/transmissions11/solmate) / [Solady](https://github.com/Vectorized/solady) | Gas-optimized alternatives for performance-critical paths — prefer Solady for actively maintained contracts |
 
 ---
 

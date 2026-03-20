@@ -1,4 +1,7 @@
 // SPDX-License-Identifier: MIT
+// This file is a documentation template. The function bodies contain
+// `// Implementation` stubs intentionally — replace them with your logic.
+// These stubs are not production code.
 pragma solidity 0.8.20;
 
 // Note: import paths use OpenZeppelin Contracts v5.
