@@ -7,6 +7,7 @@ Chain-specific items are in the dedicated guides:
 
 - [EVM Checklist](./evm/CHECKLIST.md)
 - [Solana Checklist](./solana/CHECKLIST.md)
+- [Starknet Checklist](./starknet/CHECKLIST.md)
 
 ---
 
@@ -33,7 +34,7 @@ Chain-specific items are in the dedicated guides:
 
 ## Testing
 
-- [ ] Test coverage meets the minimum threshold for your chain (see chain-specific guide — EVM requires 95% line coverage)
+- [ ] Test coverage meets the minimum threshold
 - [ ] End-to-end flow tests cover all primary user journeys
 - [ ] Access control tests verify permission boundaries for every privileged action
 - [ ] Edge case tests cover zero values, maximum values, and boundary conditions

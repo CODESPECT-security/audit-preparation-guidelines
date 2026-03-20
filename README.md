@@ -67,6 +67,7 @@ Not all audit firms are equivalent. Before signing:
 |---|---|---|
 | **EVM (Solidity)** | [→ EVM Audit Preparation Guide](./evm/README.md) | [→ EVM Checklist](./evm/CHECKLIST.md) |
 | **Solana (Rust/Anchor)** | [→ Solana Audit Preparation Guide](./solana/README.md) | [→ Solana Checklist](./solana/CHECKLIST.md) |
+| **Starknet (Cairo)** | [→ Starknet Audit Preparation Guide](./starknet/README.md) | [→ Starknet Checklist](./starknet/CHECKLIST.md) |
 
 Not sure where to start? Use the [General Pre-Audit Checklist](./CHECKLIST.md) — it applies to any protocol regardless of chain.
 
