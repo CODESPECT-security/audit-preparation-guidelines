@@ -53,7 +53,7 @@ pub struct InitializeVault<'info> {
     #[account(
         init,
         payer = user,
-        space = UserVault::LEN,
+        space = UserVault::LEN, // Anchor uses this to calculate and charge rent-exempt minimum from payer
         seeds = [b"vault", user.key().as_ref()],
         bump,
     )]
@@ -64,6 +64,18 @@ pub struct InitializeVault<'info> {
     pub user: Signer<'info>,
 
     pub system_program: Program<'info, System>,
+}
+
+// =============================================================================
+// Instruction handler: Initialize Vault logic
+// =============================================================================
+
+pub fn initialize_vault(ctx: Context<InitializeVault>) -> Result<()> {
+    let vault = &mut ctx.accounts.vault;
+    vault.owner = ctx.accounts.user.key();
+    vault.bump = ctx.bumps.vault;
+    // deposited starts at 0 via #[derive(Default)]
+    Ok(())
 }
 
 // =============================================================================
