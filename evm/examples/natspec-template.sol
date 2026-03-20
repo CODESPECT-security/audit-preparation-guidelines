@@ -1,12 +1,18 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.20;
 
+// Note: import paths use OpenZeppelin Contracts v5.
+// v4 users: replace "utils/" with "security/" for ReentrancyGuard and Pausable.
+
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/utils/Pausable.sol";
+
 /// @title TokenVault
 /// @notice Secure vault for depositing and withdrawing ERC-20 tokens
 /// @dev Implements CEI pattern and reentrancy protection throughout.
 ///      Inherits OpenZeppelin ReentrancyGuard and Pausable.
 /// @custom:security-contact audits@codespect.xyz
-contract TokenVault {
+contract TokenVault is ReentrancyGuard, Pausable {
 
     /// @notice Deposit tokens into the vault
     /// @dev Transfers tokens from caller to this contract.
