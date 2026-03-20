@@ -1,4 +1,4 @@
-# Pre-Audit Checklist — Starknet (Cairo)
+# Pre-Audit Checklist: Starknet (Cairo)
 
 Complete all items in the [General Pre-Audit Checklist](../CHECKLIST.md) first,
 then work through the Cairo/Starknet-specific items below.
@@ -17,9 +17,9 @@ then work through the Cairo/Starknet-specific items below.
 
 ## Documentation
 
-- [ ] Protocol overview prepared (1–2 pages: what it does, who uses it, why)
+- [ ] Protocol overview prepared (1 to 2 pages: what it does, who uses it, why)
 - [ ] Architecture diagrams created (component hierarchy, dispatcher relationships)
-- [ ] Access control matrix defined (roles: owner, admin, pauser — what each can do)
+- [ ] Access control matrix defined (roles: owner, admin, pauser; what each can do)
 - [ ] Known invariants documented (conditions that must always hold true)
 - [ ] Known risks and mitigations listed
 - [ ] L1-L2 messaging flows documented (if applicable)
@@ -46,13 +46,13 @@ then work through the Cairo/Starknet-specific items below.
 - [ ] `Pausable` component implemented and tested for emergency stops
 - [ ] All privileged functions protected by `Ownable` or `AccessControl`
 - [ ] `ContractAddress` inputs validated with `.is_zero()` checks
-- [ ] Arithmetic uses typed integers (`u256`, `u128`) — not `felt252` — for token amounts
+- [ ] Arithmetic uses typed integers (`u256`, `u128`), not `felt252`, for token amounts
 - [ ] Events emitted for all state-changing operations with sufficient indexed fields
 - [ ] Multi-sig or timelock configured for privileged operations (if applicable)
 
 ---
 
-## Cairo-Specific Vulnerabilities — Review Before Submitting
+## Cairo-Specific Vulnerabilities: Review Before Submitting
 
 - [ ] **felt252 arithmetic:** No token amounts or balances stored as `felt252` (wraps silently)
 - [ ] **Storage collisions:** No storage slot collisions in upgradeable contracts

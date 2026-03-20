@@ -1,4 +1,4 @@
-# Pre-Audit Checklist — EVM (Solidity)
+# Pre-Audit Checklist: EVM (Solidity)
 
 Complete all items in the [General Pre-Audit Checklist](../CHECKLIST.md) first,
 then work through the EVM-specific items below.
@@ -7,7 +7,7 @@ then work through the EVM-specific items below.
 
 ## Code Readiness
 
-- [ ] Solidity version is locked (`pragma solidity 0.8.x;` — no floating `^`)
+- [ ] Solidity version is locked (`pragma solidity 0.8.x;`, no floating `^`)
 - [ ] Code compiles with zero warnings at the locked version
 - [ ] OpenZeppelin contracts are updated to the latest stable version
 - [ ] No use of `tx.origin` for authorization
@@ -43,5 +43,5 @@ then work through the EVM-specific items below.
 - [ ] Checks-Effects-Interactions pattern followed throughout (state updated before external calls)
 - [ ] Multi-sig or timelock configured for privileged operations (if applicable)
 - [ ] Emergency pause mechanism implemented and covered by tests
-- [ ] Proxy storage layout verified — no slot collisions between implementation versions
+- [ ] Proxy storage layout verified: no slot collisions between implementation versions
 - [ ] Events emitted for all state-changing operations

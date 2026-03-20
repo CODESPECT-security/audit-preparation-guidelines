@@ -1,5 +1,5 @@
 // This file is a documentation template. The function bodies contain
-// `// Implementation` stubs intentionally — replace them with your logic.
+// `// Implementation` stubs intentionally; replace them with your logic.
 // These stubs are not production code.
 
 // SPDX-License-Identifier: MIT

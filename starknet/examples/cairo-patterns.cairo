@@ -12,7 +12,7 @@
 // Pattern 1: Safe Arithmetic
 //
 // Cairo integers (u256, u128, etc.) panic on overflow by default.
-// felt252 does NOT — it wraps modulo the field prime.
+// felt252 does NOT; it wraps modulo the field prime.
 // Use typed integers (u256, u128) for token amounts and balances.
 // Explicit zero checks prevent division-by-zero panics.
 // =============================================================================
@@ -36,7 +36,7 @@ fn validate_address(address: starknet::ContractAddress) {
 // =============================================================================
 // Pattern 3: ReentrancyGuard + Pausable (OpenZeppelin components)
 //
-// Use OpenZeppelin Cairo components — do not implement your own guards.
+// Use OpenZeppelin Cairo components; do not implement your own guards.
 // Components are composed into contracts using the component! macro.
 // Auditors check for missing guards on functions that make external calls.
 // =============================================================================
@@ -166,7 +166,7 @@ mod tests {
     #[fuzzer(runs: 1000, seed: 42)]
     fn test_fuzz_safe_divide(a: u256, b: u256) {
         if b == 0 {
-            return; // Skip zero divisor — tested separately
+            return; // Skip zero divisor (tested separately)
         }
         let result = super::safe_divide(a, b);
         assert(result <= a, 'Result cannot exceed dividend');

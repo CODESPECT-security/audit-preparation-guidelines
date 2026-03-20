@@ -11,7 +11,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 /// @title AuditReadyPatterns
 /// @notice Demonstrates the four patterns auditors look for first.
 ///         A clean implementation of these patterns lets auditors move
-///         faster — they spend time on your business logic, not basics.
+///         faster. They spend time on your business logic, not basics.
 contract AuditReadyPatterns is ReentrancyGuard, Pausable, Ownable {
 
     // =========================================================
@@ -26,14 +26,14 @@ contract AuditReadyPatterns is ReentrancyGuard, Pausable, Ownable {
 
     /// @notice Withdraw pending balance using CEI + reentrancy guard
     function withdraw() external nonReentrant whenNotPaused {
-        // 1. CHECKS — validate before doing anything
+        // 1. CHECKS: validate before doing anything
         uint256 amount = pendingWithdrawals[msg.sender];
         if (amount == 0) revert NothingToWithdraw();
 
-        // 2. EFFECTS — update state before any external interaction
+        // 2. EFFECTS: update state before any external interaction
         pendingWithdrawals[msg.sender] = 0;
 
-        // 3. INTERACTIONS — external call comes last
+        // 3. INTERACTIONS: external call comes last
         (bool success,) = msg.sender.call{value: amount}("");
         if (!success) revert TransferFailed();
     }
@@ -46,7 +46,7 @@ contract AuditReadyPatterns is ReentrancyGuard, Pausable, Ownable {
     // recipients and simplifies reentrancy analysis.
     // =========================================================
 
-    /// @notice Record a pending payment — recipient pulls, protocol does not push
+    /// @notice Record a pending payment; recipient pulls, protocol does not push
     /// @dev Internal. Call this instead of transferring ETH directly.
     function _recordPayment(address recipient, uint256 amount) internal {
         pendingWithdrawals[recipient] += amount;
@@ -72,7 +72,7 @@ contract AuditReadyPatterns is ReentrancyGuard, Pausable, Ownable {
     // is found post-deployment? If not, that is a finding.
     // =========================================================
 
-    /// @notice Pause all protocol operations — callable by owner only
+    /// @notice Pause all protocol operations; callable by owner only
     /// @dev Use in response to discovered vulnerabilities or exploits
     function pause() external onlyOwner {
         _pause();

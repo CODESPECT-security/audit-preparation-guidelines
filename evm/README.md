@@ -13,10 +13,10 @@ This guide covers EVM-specific preparation requirements for Solidity protocols o
 Lock your pragma. Floating versions allow compiler behavior to change under you.
 
 ```solidity
-// ✅ Correct — locked version
+// ✅ Correct: locked version
 pragma solidity 0.8.20;
 
-// ❌ Avoid — floating version
+// ❌ Avoid: floating version
 pragma solidity ^0.8.0;
 ```
 
@@ -37,7 +37,7 @@ Follow the [Solidity Style Guide](https://docs.soliditylang.org/en/latest/style-
 
 ### NatSpec Documentation
 
-Every public and external function needs NatSpec. Auditors read comments to understand your intent — a mismatch between comments and implementation is itself a finding.
+Every public and external function needs NatSpec. Auditors read comments to understand your intent; a mismatch between comments and implementation is itself a finding.
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -79,7 +79,7 @@ Full template: [`examples/natspec-template.sol`](./examples/natspec-template.sol
 
 ## 2. Battle-Tested Patterns
 
-Use established patterns. Do not implement reentrancy guards or access control from scratch — OpenZeppelin has battle-tested implementations. Auditors slow down when they see custom reimplementations.
+Use established patterns. Do not implement reentrancy guards or access control from scratch. OpenZeppelin has battle-tested implementations. Auditors slow down when they see custom reimplementations.
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -112,7 +112,7 @@ contract AuditReadyPatterns is ReentrancyGuard, Pausable, Ownable {
     // Pull over push: record pending payments, let recipients pull
     function _recordPayment(address recipient, uint256 amount) internal {
         pendingWithdrawals[recipient] += amount;
-        // (emits PaymentRecorded — see full example for event definition)
+        // (emits PaymentRecorded; see full example for event definition)
     }
 
     // Emergency stop: pause all operations if a vulnerability is discovered
@@ -129,10 +129,10 @@ contract AuditReadyPatterns is ReentrancyGuard, Pausable, Ownable {
 Full example: [`examples/code-patterns.sol`](./examples/code-patterns.sol)
 
 **Why these patterns matter for your audit:**
-- **CEI** — Auditors check for violations first. Clean CEI lets them move on faster.
-- **ReentrancyGuard** — Eliminates an entire vulnerability class.
-- **Pausable** — Shows auditors you have an emergency response plan.
-- **Pull over push** — Prevents griefing and simplifies reentrancy analysis.
+- **CEI:** Auditors check for violations first. Clean CEI lets them move on faster.
+- **ReentrancyGuard:** Eliminates an entire vulnerability class.
+- **Pausable:** Shows auditors you have an emergency response plan.
+- **Pull over push:** Prevents griefing and simplifies reentrancy analysis.
 
 ---
 
@@ -152,7 +152,7 @@ If your protocol intentionally accepts MEV exposure, document that explicitly.
 If your protocol is upgradeable, document:
 - Which proxy pattern you use (Transparent Proxy, UUPS, Beacon)
 - What the admin can change and what is permanently immutable
-- Storage layout — slot assignments and upgrade compatibility
+- Storage layout: slot assignments and upgrade compatibility
 
 Auditors spend significant time on upgrade paths. Clear layout documentation cuts this time in half.
 
@@ -161,7 +161,7 @@ Auditors spend significant time on upgrade paths. Clear layout documentation cut
 For every price feed or external data source, document:
 - The source (Chainlink feed address, TWAP contract, Pyth network, etc.)
 - The acceptable staleness window and what happens when it is exceeded
-- The consequences of price manipulation — what could an attacker achieve?
+- The consequences of price manipulation: what could an attacker achieve?
 
 ### Cross-Chain Deployments
 
@@ -177,12 +177,12 @@ If deploying to multiple EVM chains, list each target chain and document any beh
 | Branch coverage | 90% | 100% |
 | Function coverage | 100% | 100% |
 
-**Test categories — all four are required:**
+**Test categories, all four are required:**
 
-- **Unit tests** — Each function in isolation: happy path, edge cases (0 values, max values, boundaries), revert conditions with correct error messages, event emission verification
-- **Integration tests** — Multi-contract workflows, oracle interactions, cross-protocol integrations
-- **Fork tests** — Tests against real mainnet state: real oracle prices, real liquidity pools, real deployed contracts
-- **Fuzz + invariant tests** — `forge test --fuzz-runs 10000`; invariant tests for critical protocol properties that must hold across all state transitions
+- **Unit tests:** Each function in isolation: happy path, edge cases (0 values, max values, boundaries), revert conditions with correct error messages, event emission verification
+- **Integration tests:** Multi-contract workflows, oracle interactions, cross-protocol integrations
+- **Fork tests:** Tests against real mainnet state: real oracle prices, real liquidity pools, real deployed contracts
+- **Fuzz + invariant tests:** `forge test --fuzz-runs 10000`; invariant tests for critical protocol properties that must hold across all state transitions
 
 ---
 
@@ -190,10 +190,10 @@ If deploying to multiple EVM chains, list each target chain and document any beh
 
 | Tool | Purpose |
 |---|---|
-| [Foundry](https://book.getfoundry.sh) | Primary development and testing framework — fast compilation, built-in fuzzing, fork testing |
+| [Foundry](https://book.getfoundry.sh) | Primary development and testing framework: fast compilation, built-in fuzzing, fork testing |
 | [Hardhat](https://hardhat.org) | JavaScript-based environment with extensive plugin ecosystem |
-| [OpenZeppelin Contracts](https://docs.openzeppelin.com/contracts) | Battle-tested standard implementations — use these, don't reinvent them |
-| [Solmate](https://github.com/transmissions11/solmate) / [Solady](https://github.com/Vectorized/solady) | Gas-optimized alternatives for performance-critical paths — prefer Solady for actively maintained contracts |
+| [OpenZeppelin Contracts](https://docs.openzeppelin.com/contracts) | Battle-tested standard implementations. Use these, don't reinvent them. |
+| [Solmate](https://github.com/transmissions11/solmate) / [Solady](https://github.com/Vectorized/solady) | Gas-optimized alternatives for performance-critical paths. Prefer Solady for actively maintained contracts. |
 
 ---
 

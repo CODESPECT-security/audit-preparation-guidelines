@@ -45,7 +45,7 @@ impl UserVault {
 /// Create a new UserVault PDA for the signer.
 ///
 /// Access control: any signer can create their own vault.
-/// One vault per user — the PDA derivation enforces uniqueness.
+/// One vault per user; the PDA derivation enforces uniqueness.
 #[derive(Accounts)]
 pub struct InitializeVault<'info> {
     /// The vault PDA being created.
@@ -85,7 +85,7 @@ pub fn initialize_vault(ctx: Context<InitializeVault>) -> Result<()> {
 /// Deposit lamports into the caller's vault.
 ///
 /// Access control: only the vault owner (matching signer) can deposit.
-/// The `constraint` below enforces this — if it fails, the transaction
+/// The `constraint` below enforces this; if it fails, the transaction
 /// is rejected before any state changes occur.
 #[derive(Accounts)]
 pub struct Deposit<'info> {
@@ -124,7 +124,7 @@ pub fn deposit(ctx: Context<Deposit>, amount: u64) -> Result<()> {
     );
     anchor_lang::system_program::transfer(cpi_ctx, amount)?;
 
-    // Checked arithmetic — returns VaultError::Overflow instead of panicking
+    // Checked arithmetic: returns VaultError::Overflow instead of panicking
     ctx.accounts.vault.deposited = ctx
         .accounts
         .vault

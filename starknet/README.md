@@ -10,7 +10,7 @@ This guide covers Starknet-specific preparation requirements for contracts writt
 
 ### Cairo Edition and Toolchain
 
-Pin your Cairo edition and dependency versions in `Scarb.toml`. Floating versions affect reproducibility — if your auditor's environment differs from yours, compilation results may differ.
+Pin your Cairo edition and dependency versions in `Scarb.toml`. Floating versions affect reproducibility; if your auditor's environment differs from yours, compilation results may differ.
 
 ```toml
 # Scarb.toml
@@ -42,7 +42,7 @@ Consistent naming is a signal of code quality. Follow Cairo conventions througho
 
 ### Documentation Comments
 
-Every public function and interface method needs documentation comments. Auditors read these to understand your intent — a mismatch between comments and implementation is a finding.
+Every public function and interface method needs documentation comments. Auditors read these to understand your intent; a mismatch between comments and implementation is a finding.
 
 ```cairo
 /// Transfers tokens from the caller to a recipient.
@@ -68,7 +68,7 @@ Full template: [`examples/doc-template.cairo`](./examples/doc-template.cairo)
 
 ## 2. Battle-Tested Patterns
 
-Use OpenZeppelin Cairo components — do not implement your own guards. Auditors slow down when they see custom reimplementations of security primitives.
+Use OpenZeppelin Cairo components. Do not implement your own guards. Auditors slow down when they see custom reimplementations of security primitives.
 
 ```cairo
 #[starknet::contract]
@@ -77,7 +77,7 @@ mod AuditReadyPatterns {
     use openzeppelin::security::pausable::PausableComponent;
     use openzeppelin::access::ownable::OwnableComponent;
 
-    // Compose components — each adds storage, events, and implementations
+    // Compose components: each adds storage, events, and implementations
     component!(path: ReentrancyGuardComponent, storage: reentrancy_guard, event: ReentrancyGuardEvent);
     component!(path: PausableComponent, storage: pausable, event: PausableEvent);
     component!(path: OwnableComponent, storage: ownable, event: OwnableEvent);
@@ -104,10 +104,10 @@ mod AuditReadyPatterns {
 Full example: [`examples/cairo-patterns.cairo`](./examples/cairo-patterns.cairo)
 
 **Why these patterns matter for your audit:**
-- **ReentrancyGuard** — Cairo contracts can make external calls; reentrancy is a real risk.
-- **Pausable** — Shows auditors you have an emergency response plan.
-- **CEI (Checks-Effects-Interactions)** — Update state before external calls even with the guard.
-- **Pull over push** — Record pending amounts; let callers withdraw rather than pushing funds.
+- **ReentrancyGuard:** Cairo contracts can make external calls; reentrancy is a real risk.
+- **Pausable:** Shows auditors you have an emergency response plan.
+- **CEI (Checks-Effects-Interactions):** Update state before external calls even with the guard.
+- **Pull over push:** Record pending amounts; let callers withdraw rather than pushing funds.
 
 ---
 
@@ -118,10 +118,10 @@ Full example: [`examples/cairo-patterns.cairo`](./examples/cairo-patterns.cairo)
 `felt252` is Cairo's native field element. It wraps silently on overflow (modulo the field prime ~2^251). Never use `felt252` for token amounts, balances, or any value where overflow would be incorrect.
 
 ```cairo
-// ✅ Use typed integers for amounts — overflow panics explicitly
+// ✅ Use typed integers for amounts: overflow panics explicitly
 let new_balance: u256 = current_balance + amount;
 
-// ❌ Avoid felt252 for amounts — wraps silently at field prime
+// ❌ Avoid felt252 for amounts: wraps silently at field prime
 let new_balance: felt252 = current_balance_felt + amount_felt;
 ```
 
@@ -142,14 +142,14 @@ fn validate_address(address: ContractAddress) {
 If your protocol uses Starknet's L1-L2 messaging, document:
 - Which L1 contracts send messages to your Starknet contract
 - Which L1 handler functions process those messages
-- How replay protection is implemented (Starknet's runtime does not prevent replay by default — your contract must)
+- How replay protection is implemented (Starknet's runtime does not prevent replay by default; your contract must handle this)
 - What happens if a message is consumed out of order
 
 ### Upgrade Authority
 
 Document your contract's upgradeability status:
-- **Upgradeable** — Who controls the upgrade? Is there a timelock? What is the multisig threshold?
-- **Immutable** — State this explicitly. Auditors will verify there is no upgrade entrypoint.
+- **Upgradeable:** Who controls the upgrade? Is there a timelock? What is the multisig threshold?
+- **Immutable:** State this explicitly. Auditors will verify there is no upgrade entrypoint.
 
 An undocumented upgrade entrypoint is a common finding. Decide and document before the audit.
 
@@ -167,12 +167,12 @@ Do not rely on `starknet::get_block_timestamp()` for critical ordering logic. Se
 | Branch coverage | 90% | 100% |
 | Function coverage | 100% | 100% |
 
-**Test categories — all four are required:**
+**Test categories, all four are required:**
 
-- **Unit tests** — Each function in isolation: happy path, edge cases (0, max `u256`), all panic conditions with correct messages, event emission verification
-- **Integration tests** — Multi-contract workflows, oracle (Pragma) interactions, L1-L2 message flows
-- **Fork tests** — Tests against real Starknet mainnet or Sepolia state (Starknet Foundry forking)
-- **Fuzz tests** — `#[fuzzer(runs: 1000)]` on critical mathematical functions; invariant tests for protocol properties
+- **Unit tests:** Each function in isolation: happy path, edge cases (0, max `u256`), all panic conditions with correct messages, event emission verification
+- **Integration tests:** Multi-contract workflows, oracle (Pragma) interactions, L1-L2 message flows
+- **Fork tests:** Tests against real Starknet mainnet or Sepolia state (Starknet Foundry forking)
+- **Fuzz tests:** `#[fuzzer(runs: 1000)]` on critical mathematical functions; invariant tests for protocol properties
 
 Full test examples: [`examples/cairo-patterns.cairo`](./examples/cairo-patterns.cairo)
 
@@ -182,10 +182,10 @@ Full test examples: [`examples/cairo-patterns.cairo`](./examples/cairo-patterns.
 
 | Tool | Purpose |
 |---|---|
-| [Scarb](https://docs.swmansion.com/scarb) | Official Cairo package manager and build tool — required for any Cairo project |
+| [Scarb](https://docs.swmansion.com/scarb) | Official Cairo package manager and build tool; required for any Cairo project |
 | [Starknet Foundry](https://foundry-rs.github.io/starknet-foundry) | Testing framework with fuzzing, forking, and cheatcodes (`snforge`) |
 | [OpenZeppelin Cairo](https://docs.openzeppelin.com/contracts-cairo) | Battle-tested component implementations (ERC20, AccessControl, ReentrancyGuard, Pausable) |
-| [Alexandria](https://github.com/keep-starknet-strange/alexandria) | Community Cairo utility library — data structures, math, and more |
+| [Alexandria](https://github.com/keep-starknet-strange/alexandria) | Community Cairo utility library; data structures, math, and more |
 
 ---
 

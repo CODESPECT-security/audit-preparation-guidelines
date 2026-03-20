@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 // This file is a documentation template. The function bodies contain
-// `// Implementation` stubs intentionally — replace them with your logic.
+// `// Implementation` stubs intentionally; replace them with your logic.
 // These stubs are not production code.
 pragma solidity 0.8.20;
 
@@ -34,7 +34,7 @@ contract TokenVault is ReentrancyGuard, Pausable {
 
     /// @notice Withdraw tokens from the vault
     /// @dev Burns caller's shares and transfers underlying tokens back.
-    ///      Uses pull pattern — caller initiates, contract does not push.
+    ///      Uses pull pattern; caller initiates, contract does not push.
     /// @param token Address of the ERC-20 token to withdraw
     /// @param shares Number of vault shares to redeem
     /// @return amount Number of tokens returned to the caller

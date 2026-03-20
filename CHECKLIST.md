@@ -1,6 +1,6 @@
 ← [Back to main guide](./README.md)
 
-# Pre-Audit Checklist — General
+# Pre-Audit Checklist: General
 
 Copy this checklist into a GitHub Issue or PR to track your audit preparation.
 Chain-specific items are in the dedicated guides:
@@ -14,7 +14,7 @@ Chain-specific items are in the dedicated guides:
 ## Code Readiness
 
 - [ ] Code compiles without errors or warnings
-- [ ] All features are fully implemented — no placeholders or stubs
+- [ ] All features are fully implemented (no placeholders or stubs)
 - [ ] No `TODO`, `FIXME`, or `HACK` comments remain in audited code
 - [ ] External dependencies are from reputable, audited sources (no random GitHub repos)
 - [ ] Dependency versions are pinned
@@ -23,7 +23,7 @@ Chain-specific items are in the dedicated guides:
 
 ## Documentation
 
-- [ ] Protocol overview document prepared (1–2 pages: what it does, who uses it, why)
+- [ ] Protocol overview document prepared (1 to 2 pages: what it does, who uses it, why)
 - [ ] Architecture diagrams created (contract/program relationships, data flow)
 - [ ] Access control matrix defined (who can call what, under what conditions)
 - [ ] Known invariants documented (conditions that must always hold true)
@@ -48,4 +48,4 @@ Chain-specific items are in the dedicated guides:
 - [ ] Deployment scripts prepared and tested on a local or test network
 - [ ] Upgrade procedures documented (if protocol is upgradeable)
 - [ ] Emergency pause or circuit breaker mechanism implemented
-- [ ] Audit scope clearly defined — know exactly which contracts/programs are in scope before the kickoff call
+- [ ] Audit scope clearly defined: know exactly which contracts/programs are in scope before the kickoff call

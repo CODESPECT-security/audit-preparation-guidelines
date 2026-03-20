@@ -24,7 +24,7 @@ Consistent naming is a signal of code quality. Auditors reading well-named code 
 
 ### Toolchain Version
 
-Pin your Rust, Anchor, and Solana CLI versions. Floating toolchains affect reproducibility — if the auditor's environment differs from yours, compilation or test results may differ too.
+Pin your Rust, Anchor, and Solana CLI versions. Floating toolchains affect reproducibility; if the auditor's environment differs from yours, compilation or test results may differ too.
 
 Use `rust-toolchain.toml` to pin Rust:
 
@@ -45,7 +45,7 @@ Commit `rust-toolchain.toml` to your repository. Auditors will use it.
 
 ### Documentation Comments
 
-Every instruction and public account struct needs documentation comments. Auditors read these to understand your intent — a mismatch between comments and implementation is a finding.
+Every instruction and public account struct needs documentation comments. Auditors read these to understand your intent; a mismatch between comments and implementation is a finding.
 
 ```rust
 /// Transfer tokens from the user's vault to a recipient.
@@ -120,7 +120,7 @@ Full example with instruction handler and error definitions: [`examples/account-
 
 ## 3. Solana-Specific Considerations
 
-These are the vulnerability classes Solana auditors check first. Understanding them helps you write code that is fast to audit — and harder to exploit.
+These are the vulnerability classes Solana auditors check first. Understanding them helps you write code that is fast to audit, and harder to exploit.
 
 ### CPI (Cross-Program Invocation) Risks
 
@@ -139,7 +139,7 @@ require_keys_eq!(
 
 ```rust
 anchor_spl::token::transfer(cpi_ctx, amount)?;
-ctx.accounts.vault.reload()?;  // Required — CPI may have changed vault state
+ctx.accounts.vault.reload()?;  // Required: CPI may have changed vault state
 ```
 
 ### Missing Ownership Checks
@@ -148,7 +148,7 @@ Anchor's `Account<'info, T>` automatically verifies account ownership. Raw `Acco
 
 ### Reinitialization
 
-Use Anchor's `init` constraint — not `init_if_needed` — unless reinitialization is explicitly part of your design. Reinitializing an account can reset state that should be permanent.
+Use Anchor's `init` constraint, not `init_if_needed`, unless reinitialization is explicitly part of your design. Reinitializing an account can reset state that should be permanent.
 
 ### Duplicate Mutable Accounts
 
@@ -159,7 +159,7 @@ If the same account appears in two mutable positions, Solana's runtime may produ
 Never use unchecked arithmetic on user-controlled values.
 
 ```rust
-// ✅ Checked — returns an error on overflow
+// ✅ Checked: returns an error on overflow
 let new_balance = vault.deposited
     .checked_add(amount)
     .ok_or(VaultError::Overflow)?;
@@ -170,13 +170,13 @@ let new_balance = vault.deposited + amount;
 
 ### Upgrade Authority
 
-Every Solana program has an upgrade authority — the keypair that can modify the deployed bytecode. Auditors always ask about it. Have a clear answer.
+Every Solana program has an upgrade authority: the keypair that can modify the deployed bytecode. Auditors always ask about it. Have a clear answer.
 
 Document your program's upgrade authority disposition:
 
-- **Active upgrade key** — Who holds it? Is it a multisig? What is the threshold?
-- **Timelock** — Is there a delay between proposing and executing an upgrade?
-- **Immutable** — Have you burned the upgrade authority? If so, document when and provide the transaction signature.
+- **Active upgrade key:** Who holds it? Is it a multisig? What is the threshold?
+- **Timelock:** Is there a delay between proposing and executing an upgrade?
+- **Immutable:** Have you burned the upgrade authority? If so, document when and provide the transaction signature.
 
 An undocumented or unrevoked upgrade authority is a common audit finding. If your protocol is intended to be immutable, burn the authority before the audit or state explicitly that this will happen at launch.
 
@@ -190,13 +190,13 @@ An undocumented or unrevoked upgrade authority is a common audit finding. If you
 | Branch coverage | 85% | 100% |
 | Critical instructions | 100% | 100% |
 
-**Test categories — all five are required:**
+**Test categories, all five are required:**
 
-- **E2E flow tests** — Complete user journeys: account creation, deposit, withdrawal, closure. Test the happy path as a real user would experience it.
-- **Access control tests** — Every privileged instruction must be tested with an unauthorized caller and confirmed to reject.
-- **Edge case tests** — Zero values, maximum `u64`, empty states, accounts at minimum rent, boundary conditions.
-- **Negative tests** — Invalid signers, wrong account ownership, closed accounts, PDAs with incorrect seeds, replay attempts.
-- **Fuzz / invariant tests** — Property-based testing via Trident. Define invariants (e.g., total deposited ≤ vault balance) and verify they hold under arbitrary inputs.
+- **E2E flow tests:** Complete user journeys: account creation, deposit, withdrawal, closure. Test the happy path as a real user would experience it.
+- **Access control tests:** Every privileged instruction must be tested with an unauthorized caller and confirmed to reject.
+- **Edge case tests:** Zero values, maximum `u64`, empty states, accounts at minimum rent, boundary conditions.
+- **Negative tests:** Invalid signers, wrong account ownership, closed accounts, PDAs with incorrect seeds, replay attempts.
+- **Fuzz / invariant tests:** Property-based testing via Trident. Define invariants (e.g., total deposited ≤ vault balance) and verify they hold under arbitrary inputs.
 
 ---
 
@@ -204,12 +204,12 @@ An undocumented or unrevoked upgrade authority is a common audit finding. If you
 
 | Tool | Purpose |
 |---|---|
-| [Anchor](https://www.anchor-lang.com) | Primary Solana development framework — account constraints, CPI helpers, IDL generation |
+| [Anchor](https://www.anchor-lang.com) | Primary Solana development framework: account constraints, CPI helpers, IDL generation |
 | [Trident](https://ackee.xyz/trident/docs) | Fuzz testing framework for Anchor programs |
-| [Bankrun](https://github.com/kevinheavey/solana-bankrun) | Fast in-process test runner — significantly faster than spinning up a local validator |
-| [Mollusk](https://github.com/buffalojoec/mollusk) | Low-level instruction testing framework — useful for precise account state assertions |
+| [Bankrun](https://github.com/kevinheavey/solana-bankrun) | Fast in-process test runner; significantly faster than spinning up a local validator |
+| [Mollusk](https://github.com/buffalojoec/mollusk) | Low-level instruction testing framework; useful for precise account state assertions |
 | [Solana CLI](https://docs.solana.com/cli) | Local validator, deployment, account inspection |
-| Rust Analyzer | IDE support for Rust — essential for navigating Anchor's macro-heavy codebase |
+| Rust Analyzer | IDE support for Rust; essential for navigating Anchor's macro-heavy codebase |
 
 ---
 
