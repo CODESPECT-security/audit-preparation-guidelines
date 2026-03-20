@@ -1,0 +1,1 @@
+Place CODESPECT logo (logo.png) in this directory
