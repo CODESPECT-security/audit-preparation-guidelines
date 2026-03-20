@@ -39,7 +39,7 @@ For chain-specific preparation details, jump to the [EVM Guide](./evm/README.md)
 | Phase | What Happens |
 |---|---|
 | Kickoff | Scope confirmation, documentation handoff, initial Q&A with the development team |
-| Audit | In-depth manual review, static analysis, custom test scenarios, economic modeling |
+| Audit | In-depth manual review, static analysis, custom test scenarios |
 | Report Drafting | Findings documented with severity classifications, proof-of-concept, and remediation guidance |
 | Remediation | Development team implements fixes and provides a response to each finding |
 | Fix Review | Each fix independently verified, regressions checked, affected areas re-tested |
