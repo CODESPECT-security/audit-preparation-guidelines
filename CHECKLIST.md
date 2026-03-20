@@ -31,7 +31,7 @@ Chain-specific items are in the dedicated guides:
 
 ## Testing
 
-- [ ] Test coverage exceeds 90% of code paths
+- [ ] Test coverage meets the minimum threshold for your chain (see chain-specific guide — EVM requires 95% line coverage)
 - [ ] End-to-end flow tests cover all primary user journeys
 - [ ] Access control tests verify permission boundaries for every privileged action
 - [ ] Edge case tests cover zero values, maximum values, and boundary conditions

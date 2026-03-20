@@ -26,8 +26,9 @@ then work through the Solana-specific items below.
 
 ## Testing
 
-- [ ] Test coverage ≥ 90% of code paths
+- [ ] Line coverage ≥ 90% of code paths
 - [ ] Critical instructions have 100% test coverage
+- [ ] Branch coverage ≥ 85% (measurable with `cargo llvm-cov`)
 - [ ] E2E tests cover complete user flows (account creation → deposit → withdrawal → close)
 - [ ] Access control tests verify every privileged instruction rejects unauthorized callers
 - [ ] Tests verify correct PDA derivation and rejection of PDAs with incorrect seeds
