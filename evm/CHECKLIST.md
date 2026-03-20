@@ -17,6 +17,8 @@ then work through the EVM-specific items below.
 
 ## Documentation
 
+- [ ] NatSpec complete on all public and external functions (`@title`, `@notice`, `@dev`, `@param`, `@return`)
+- [ ] Custom errors documented with `@notice` explaining when they are thrown
 - [ ] Upgradeability pattern documented (Transparent Proxy, UUPS, Beacon, or none)
 - [ ] Admin capabilities and their limitations documented (what can the owner change?)
 - [ ] Oracle dependencies listed (Chainlink feeds, TWAPs, Pyth, etc.) with staleness thresholds

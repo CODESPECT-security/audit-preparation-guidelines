@@ -17,6 +17,7 @@ then work through the Solana-specific items below.
 
 ## Documentation
 
+- [ ] Doc comments (`///`) present on all public instructions and account structs (`# Access Control`, `# Errors` sections included)
 - [ ] Instruction flow diagrams (or documented flow descriptions) created for each program instruction (purpose, caller, preconditions, state changes)
 - [ ] Account structure documented for each account type: fields, size calculation, PDA derivation, lifecycle, and rent exemption
 - [ ] CPI (Cross-Program Invocation) interactions documented: which programs are called and under what conditions
