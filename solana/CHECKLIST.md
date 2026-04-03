@@ -36,6 +36,8 @@ then work through the Solana-specific items below.
 - [ ] Tests verify correct PDA derivation and rejection of PDAs with incorrect seeds
 - [ ] Negative tests: invalid signers, wrong account ownership, closed accounts, replay attempts
 - [ ] Fuzzing implemented via Trident or equivalent
+- [ ] Every test includes at least 2 meaningful assertions beyond a success check
+- [ ] Negative tests account for at least 20% of all tests
 
 ---
 

@@ -2,8 +2,6 @@
 // `// Implementation` stubs intentionally; replace them with your logic.
 // These stubs are not production code.
 
-// SPDX-License-Identifier: MIT
-
 /// @title ITokenVault
 /// @notice Interface for the token vault contract
 /// @dev Implement this trait in your contract using #[abi(embed_v0)]

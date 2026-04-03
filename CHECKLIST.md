@@ -27,7 +27,9 @@ Chain-specific items are in the dedicated guides:
 - [ ] Architecture diagrams created (contract/program relationships, data flow)
 - [ ] Access control matrix defined (who can call what, under what conditions)
 - [ ] Known invariants documented (conditions that must always hold true)
-- [ ] Known risks and mitigations listed
+- [ ] `SECURITY.md` created documenting trust assumptions, privileged roles, centralization risks, and known risks
+- [ ] `KNOWN_ISSUES.md` created documenting accepted limitations, intentional design trade-offs, and wontfix items
+- [ ] `scope.md` created listing in-scope contracts, target chains, and entry points
 - [ ] Deployment and upgrade procedures documented
 
 ---
@@ -40,6 +42,8 @@ Chain-specific items are in the dedicated guides:
 - [ ] Edge case tests cover zero values, maximum values, and boundary conditions
 - [ ] Negative tests verify expected failure conditions (wrong caller, invalid state, insufficient balance)
 - [ ] Fuzz or invariant tests implemented (see chain-specific guide for tooling)
+- [ ] Every test has at least 2 meaningful assertions (not just a no-revert check)
+- [ ] Negative tests (expected failure conditions) account for at least 20% of all tests
 
 ---
 
@@ -49,3 +53,5 @@ Chain-specific items are in the dedicated guides:
 - [ ] Upgrade procedures documented (if protocol is upgradeable)
 - [ ] Emergency pause or circuit breaker mechanism implemented
 - [ ] Audit scope clearly defined: know exactly which contracts/programs are in scope before the kickoff call
+- [ ] Repository is in a clean state: no uncommitted changes to source files before the audit
+- [ ] README includes setup instructions so auditors can build and run tests without asking

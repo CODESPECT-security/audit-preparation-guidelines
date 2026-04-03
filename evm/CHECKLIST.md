@@ -12,6 +12,9 @@ then work through the EVM-specific items below.
 - [ ] OpenZeppelin contracts are updated to the latest stable version
 - [ ] No use of `tx.origin` for authorization
 - [ ] All `unchecked` blocks are justified with inline comments explaining why overflow is impossible
+- [ ] Every source file has a `// SPDX-License-Identifier:` header
+- [ ] All `.call()` return values checked: `(bool success,) = ...` with explicit revert on failure
+- [ ] No `address.transfer()` or `address.send()` used for ETH (use `.call{value: ...}("")` with a success check instead)
 
 ---
 
@@ -47,3 +50,8 @@ then work through the EVM-specific items below.
 - [ ] Emergency pause mechanism implemented and covered by tests
 - [ ] Proxy storage layout verified: no slot collisions between implementation versions
 - [ ] Events emitted for all state-changing operations
+- [ ] `Ownable2Step` used instead of `Ownable` where ownership transfer is possible (two-step transfer prevents sending ownership to an uncontrolled address)
+- [ ] Zero-address validation on all critical `address` constructor parameters and setter functions
+- [ ] Oracle staleness validated after `latestRoundData()`: `updatedAt` within acceptable window and `answeredInRound >= roundId`
+- [ ] Upgradeable implementation contracts call `_disableInitializers()` in constructor (if applicable)
+- [ ] Upgradeable base contracts define storage gaps (`uint256[50] private __gap`) or use ERC-7201 namespaced storage (if applicable)

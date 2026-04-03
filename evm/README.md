@@ -134,6 +134,10 @@ Full example: [`examples/code-patterns.sol`](./examples/code-patterns.sol)
 - **Pausable:** Shows auditors you have an emergency response plan.
 - **Pull over push:** Prevents griefing and simplifies reentrancy analysis.
 
+**Prefer `Ownable2Step` over `Ownable`:** Standard `Ownable` completes ownership transfer in a single transaction, meaning a typo in the new owner address permanently locks the contract. `Ownable2Step` requires the new owner to accept the transfer, making accidents recoverable. Replace `import "@openzeppelin/contracts/access/Ownable.sol"` with `Ownable2Step.sol`.
+
+**Always check `.call()` return values:** A raw `.call{value: ...}("")` that silently fails will appear to succeed while ETH is stuck. The pattern shown in the `withdraw()` example above is correct: capture `(bool success,)` and revert if `!success`. Likewise, never use `address.transfer()` or `address.send()` for ETH; they forward a hard-coded gas stipend that breaks with EIP-1884 and similar changes.
+
 ---
 
 ## 3. EVM-Specific Considerations
@@ -156,12 +160,27 @@ If your protocol is upgradeable, document:
 
 Auditors spend significant time on upgrade paths. Clear layout documentation cuts this time in half.
 
+Two implementation-level requirements auditors check on every upgradeable contract:
+- **`_disableInitializers()` in the implementation constructor:** Without this, an attacker can call `initialize()` directly on the bare implementation contract and take control of it. Add `constructor() { _disableInitializers(); }` to every implementation.
+- **Storage gaps or ERC-7201 namespaced storage:** Without reserved slots, adding a new storage variable to a base contract in a future upgrade shifts all inheriting contracts' storage and corrupts state. Either reserve `uint256[50] private __gap;` at the end of base contracts, or use OpenZeppelin's ERC-7201 `@custom:storage-location erc7201:...` annotation with `StorageSlot`.
+
 ### Oracle Risk
 
 For every price feed or external data source, document:
 - The source (Chainlink feed address, TWAP contract, Pyth network, etc.)
 - The acceptable staleness window and what happens when it is exceeded
 - The consequences of price manipulation: what could an attacker achieve?
+
+When using Chainlink's `latestRoundData()`, validate all relevant return fields — not just the price:
+
+```solidity
+(uint80 roundId, int256 price, , uint256 updatedAt, uint80 answeredInRound) = feed.latestRoundData();
+require(answeredInRound >= roundId, "Stale price: round not complete");
+require(updatedAt >= block.timestamp - MAX_STALENESS, "Price too old");
+require(price > 0, "Invalid price");
+```
+
+Omitting any of these checks is a common finding. Document your `MAX_STALENESS` value and the rationale for it.
 
 ### Cross-Chain Deployments
 
@@ -198,3 +217,7 @@ If deploying to multiple EVM chains, list each target chain and document any beh
 ---
 
 **Ready for your audit?** → [EVM Pre-Audit Checklist](./CHECKLIST.md)
+
+---
+
+*The automated audit-prep skill used for EVM readiness assessment was originally created by [CD Security](https://cdsecurity.io) and has been extended by CODESPECT.*

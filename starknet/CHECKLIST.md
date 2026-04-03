@@ -38,6 +38,8 @@ then work through the Cairo/Starknet-specific items below.
 - [ ] Fork tests run against Starknet mainnet/Sepolia state (Starknet Foundry)
 - [ ] Fuzz tests implemented (`#[fuzzer(runs: 1000)]`) for critical mathematical functions
 - [ ] Invariant tests written for critical protocol properties
+- [ ] Every test includes at least 2 meaningful assertions
+- [ ] Panic condition tests account for at least 20% of all tests
 
 ---
 
@@ -48,3 +50,4 @@ then work through the Cairo/Starknet-specific items below.
 - [ ] Arithmetic uses typed integers (`u256`, `u128`), not `felt252`, for token amounts
 - [ ] Events emitted for all state-changing operations with sufficient indexed fields
 - [ ] Multi-sig or timelock configured for privileged operations (if applicable)
+- [ ] Zero address validation on all `ContractAddress` parameters received from users or external callers
