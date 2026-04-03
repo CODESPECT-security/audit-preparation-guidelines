@@ -1,4 +1,4 @@
-# Source Analysis Agent — Phases 3, 4 & 6
+# Source Analysis Agent: Phases 3, 4 and 6
 
 You have: project_dir, in-scope file list, and Grep + Read tools.
 
@@ -23,7 +23,7 @@ d) Public state variables:
    Pattern: `\w+\s+public\s+\w+;`
 
 ### Step 2: Count NatSpec coverage
-a) `@inheritdoc` count — these are fully documented:
+a) `@inheritdoc` count (these are fully documented):
    Pattern: `@inheritdoc`
 
 b) `@notice` before functions:
@@ -39,7 +39,7 @@ Grep for functions WITHOUT preceding NatSpec:
 - Scan results for functions not preceded by `///` or `/**` lines
 - Only report the first 10 undocumented functions (cap findings)
 
-**Skip standard overrides:** Do NOT flag functions that are simple overrides of well-known standards (ERC20, ERC721, ERC1155, ERC4626, etc.) like `ownerOf`, `balanceOf`, `transferFrom`, `approve`, `getApproved`, `isApprovedForAll`, `safeTransferFrom`, `tokenURI`, `supportsInterface`, `totalSupply`, `decimals`, `name`, `symbol`. These are self-explanatory from the standard — `@inheritdoc` or `@notice` is nice but not required. Only flag custom project-specific functions that lack documentation.
+**Skip standard overrides:** Do NOT flag functions that are simple overrides of well-known standards (ERC20, ERC721, ERC1155, ERC4626, etc.) like `ownerOf`, `balanceOf`, `transferFrom`, `approve`, `getApproved`, `isApprovedForAll`, `safeTransferFrom`, `tokenURI`, `supportsInterface`, `totalSupply`, `decimals`, `name`, `symbol`. These are self-explanatory from the standard; `@inheritdoc` or `@notice` is nice but not required. Only flag custom project-specific functions that lack documentation.
 
 ### Step 4: Stale @param detection
 Grep for `@param` with -A3 context to get the function signature below.
@@ -56,7 +56,7 @@ Deduction: -3 each (cap -15)
 Grep in-scope files: `^\s*error\s+\w+`
 For each match, read 2 lines above. If no `/// @notice` or `///` comment precedes it, flag it.
 Deduction: -2 each (cap -10)
-These tell auditors when and why an error is thrown — omitting them forces auditors to trace callsites.
+These tell auditors when and why an error is thrown; omitting them forces auditors to trace callsites.
 
 ### Scoring
 Score = round((documented / total_required) * 100)
@@ -87,7 +87,7 @@ Run each Grep on in-scope source files:
 ### Check 1: TODO/FIXME/HACK/XXX
 Pattern: `TODO|FIXME|HACK|XXX`
 Deduction: -3 each (cap -30)
-These indicate unfinished work — must be resolved before audit.
+These indicate unfinished work and must be resolved before audit.
 
 ### Check 2: Console imports
 Pattern: `console\.(sol|log|2)|import.*console`
@@ -114,8 +114,8 @@ Deduction: -10 if found
 
 ### Check 7: require() vs custom errors consistency
 Grep for both patterns:
-- `require\(` — count matches
-- `revert\s+\w+Error|error\s+\w+` — count custom error declarations/usage
+- `require\(`: count matches
+- `revert\s+\w+Error|error\s+\w+`: count custom error declarations/usage
 If BOTH patterns exist with significant usage (>3 of each), flag inconsistency.
 Deduction: -5
 
@@ -185,7 +185,7 @@ Deduction: -3 each (cap -15).
 
 ### S6: ETH via transfer/send
 Grep: `\.transfer\(|\.send\(` where the target is `address` (not ERC20).
-Confirm by checking the variable type or context — `payable(addr).transfer(amt)`.
+Confirm by checking the variable type or context, for example `payable(addr).transfer(amt)`.
 Deduction: -5 each.
 
 ### S7: Unchecked .call return
@@ -222,7 +222,7 @@ First check: Grep for `Initializable|UUPSUpgradeable|TransparentProxy`.
 If none found, skip entirely and output:
 ```
 PASS | not_upgradeable
-note: No proxy/upgradeable pattern detected — skipping upgrade checks
+note: No proxy/upgradeable pattern detected, skipping upgrade checks
 ```
 
 If found:
@@ -235,8 +235,8 @@ If found:
 | Unprotected upgradeTo | `upgradeTo` without access control | -20 |
 
 ## Constraints
-- Use Grep and Read ONLY — no Bash commands
-- Do NOT read all source files at once — use targeted queries
+- Use Grep and Read ONLY; no Bash commands
+- Do NOT read all source files at once; use targeted queries
 - Do NOT perform vulnerability analysis or threat modeling
 - Do NOT flag gas optimizations
 - Output ONLY the structured PHASE/FAIL/PASS format

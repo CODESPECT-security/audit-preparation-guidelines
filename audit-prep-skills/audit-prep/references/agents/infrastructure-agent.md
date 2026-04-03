@@ -1,4 +1,4 @@
-# Infrastructure Agent — Phases 5, 7 & 8
+# Infrastructure Agent: Phases 5, 7 and 8
 
 You have: framework, project_dir, and Bash/Read/Glob/Grep tools.
 Do NOT read source .sol files. Check project infrastructure only.
@@ -7,7 +7,7 @@ Do NOT read source .sol files. Check project infrastructure only.
 
 ### Foundry projects
 1. `git -C <project_dir> submodule status 2>&1`
-   — lines starting with `-` = uninitialized
+   Lines starting with `-` = uninitialized
 2. For each initialized submodule: `git -C <project_dir>/lib/<dep> describe --tags 2>/dev/null`
 3. Check for patched deps: `git -C <project_dir>/lib/<dep> diff --stat HEAD 2>/dev/null`
 
@@ -34,7 +34,7 @@ Dev-only vulnerabilities = INFO, no deduction.
 PHASE 5 | Dependencies | SCORE: 70/100
 
 FAIL | uninit_submodule | -10 | lib/openzeppelin-contracts
-desc: Submodule not initialized — version unverifiable
+desc: Submodule not initialized, version unverifiable
 fix: Run: git submodule update --init --recursive
 
 PASS | no_modified_deps
@@ -81,7 +81,7 @@ Deduction: -5 per uncommented address (cap -15)
 Run: `git -C <project_dir> status --short 2>&1`
 Check for uncommitted changes, untracked .sol files, or merge conflicts.
 Deduction: -10 if working tree is dirty (uncommitted changes to .sol files)
-Note: only flag changes to .sol, .json config, or script files — ignore IDE files, .DS_Store etc.
+Note: only flag changes to .sol, .json config, or script files; ignore IDE files, .DS_Store etc.
 
 ## Phase 8: Project Documentation (15%)
 
@@ -110,13 +110,13 @@ For new/first-audit projects: skip this check (don't penalize).
 Check for a file that defines audit scope:
 Glob for: `scope.json`, `scope.md`, `SCOPE.md`, `scope.txt`
 Also check README for a "Scope" or "Contracts" section listing in-scope files.
-If none found, flag it — auditors need to know which contracts, chains, and entry points are in scope.
+If none found, flag it: auditors need to know which contracts, chains, and entry points are in scope.
 
 ### Check 7: MEV exposure documentation (conditional, -10)
 First, Grep source files for DeFi function signatures: `function\s+(swap|addLiquidity|removeLiquidity|flashLoan|borrow|liquidate)`
 If any found: Grep README.md and docs/ for MEV assessment keywords: `MEV|sandwich|front.?run|back.?run|frontrun`
 Deduction: -10 if DeFi functions present but no MEV documentation found.
-Skip entirely if no DeFi functions detected — do NOT penalize protocols that have no MEV surface.
+Skip entirely if no DeFi functions detected; do NOT penalize protocols that have no MEV surface.
 
 ### Check 8: Oracle feed documentation (conditional, -10)
 Grep source files for oracle usage: `latestRoundData|latestAnswer|AggregatorV3Interface`

@@ -75,7 +75,7 @@ Not sure where to start? Use the [General Pre-Audit Checklist](./CHECKLIST.md); 
 
 ## Automated Assessment
 
-Once your code is ready, use the **audit-prep** skill to run an automated readiness check against your Solidity project. It scores your project across 8 phases — test coverage, test quality, documentation, code hygiene, dependencies, best practices, deployment readiness, and project documentation — and produces a ranked report with specific fixes.
+Once your code is ready, use the **audit-prep** skill to run an automated readiness check against your Solidity project. It scores your project across 8 phases (test coverage, test quality, documentation, code hygiene, dependencies, best practices, deployment readiness, and project documentation) and produces a ranked report with specific fixes.
 
 ```
 /audit-prep
@@ -87,7 +87,7 @@ The skill is available in the [`audit-prep-skills/`](./audit-prep-skills/README.
 
 ## Work With CODESPECT
 
-**CODESPECT** provides deep-expertise security audits for EVM and Solana protocols. Our auditors are protocol specialists, not generalists running tools.
+**CODESPECT** provides deep-expertise security audits for EVM, Solana protocols. Our auditors are protocol specialists, not generalists running tools.
 
 - **Website:** [codespect.net](https://codespect.net)
 - **Email:** [audits@codespect.xyz](mailto:audits@codespect.xyz)

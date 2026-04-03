@@ -171,7 +171,7 @@ For every price feed or external data source, document:
 - The acceptable staleness window and what happens when it is exceeded
 - The consequences of price manipulation: what could an attacker achieve?
 
-When using Chainlink's `latestRoundData()`, validate all relevant return fields — not just the price:
+When using Chainlink's `latestRoundData()`, validate all relevant return fields, not just the price:
 
 ```solidity
 (uint80 roundId, int256 price, , uint256 updatedAt, uint80 answeredInRound) = feed.latestRoundData();

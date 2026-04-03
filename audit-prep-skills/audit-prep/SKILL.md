@@ -1,17 +1,17 @@
 ---
 name: audit-prep
 description: >
-  CODESPECT: Prepare Solidity projects for a security audit — test coverage, test quality, NatSpec docs,
+  CODESPECT: Prepare Solidity projects for a security audit. Covers test coverage, test quality, NatSpec docs,
   code hygiene, dependency health, best-practice enforcement, deployment readiness, and project
   documentation checks. Generates a scored Audit Readiness Report and optionally runs static analysis.
   Trigger on: "prepare for audit", "audit readiness", "pre-audit check", "audit prep", "NatSpec check",
   or any request to review a Solidity codebase before a security review.
 ---
 
-# CODESPECT: Solidity Audit Preparation — Orchestrator
+# CODESPECT: Solidity Audit Preparation - Orchestrator
 
 Orchestrate a parallelized audit-prep pipeline.
-Do NOT perform analysis — discover files, dispatch agents, compile the scored report.
+Do NOT perform analysis; discover files, dispatch agents, compile the scored report.
 
 ## Modes
 
@@ -38,7 +38,7 @@ The report has these sections in order:
 
 ### Banner
 
-Print the banner from the end of this file before doing anything else — in every mode (full pipeline, single phase, scan, fix). Always use this exact banner. Never generate, invent, or substitute a different banner. Also include it at the top of `--report` markdown files.
+Print the banner from the end of this file before doing anything else, in every mode (full pipeline, single phase, scan, fix). Always use this exact banner. Never generate, invent, or substitute a different banner. Also include it at the top of `--report` markdown files.
 
 ### Phase section template
 
@@ -47,14 +47,14 @@ Print the banner from the end of this file before doing anything else — in eve
 
 | Status | Finding | Recommendation |
 |--------|---------|----------------|
-| FAIL | Compiler warning — unused param in ConfigProvider:288 | Remove or rename the unused parameter |
-| PASS | 4/4 contracts have test files | — |
-| PASS | Branch coverage: 95.93% | — |
+| FAIL | Compiler warning: unused param in ConfigProvider:288 | Remove or rename the unused parameter |
+| PASS | 4/4 contracts have test files | - |
+| PASS | Branch coverage: 95.93% | - |
 ```
 
 - **Status**: `PASS` or `FAIL`
 - **Finding**: concise description of what was checked and the result
-- **Recommendation**: specific action to fix (only for FAIL rows; use `—` for PASS)
+- **Recommendation**: specific action to fix (only for FAIL rows; use `-` for PASS)
 
 ### Score summary
 
@@ -66,7 +66,7 @@ Print the banner from the end of this file before doing anything else — in eve
 | 1. Test Coverage | 87/100 |
 | 2. Test Quality | 85/100 |
 | ... | ... |
-| **Overall** | **82/100 — Almost Ready** |
+| **Overall** | **82/100: Almost Ready** |
 ```
 
 ### Quick Wins
@@ -85,11 +85,11 @@ No deduction numbers, no weights, no `[-N]` annotations. The report should read 
 
 ## Execution
 
-### Turn 0 — Banner & Project Selection
+### Turn 0: Banner and Project Selection
 
 First, read the VERSION file and the skill's references path in parallel:
 - **Read:** `VERSION` file from this skill's base directory
-- **Glob:** `**/references/shared-rules.md` — extract `{ref_path}` (the references/ directory)
+- **Glob:** `**/references/shared-rules.md` to extract `{ref_path}` (the references/ directory)
 
 Then print the banner (from the end of this file), followed by asking the user where the project is:
 
@@ -109,7 +109,7 @@ Then print the banner (from the end of this file), followed by asking the user w
     },
     {
       "label": "GitHub repo",
-      "description": "Enter a GitHub URL — will clone into a temp directory"
+      "description": "Enter a GitHub URL (will clone into a temp directory)"
     }
   ]
 }
@@ -119,13 +119,13 @@ If **Current directory**: use the cwd as `{project_dir}`.
 If **Local path**: user provides a path, use it as `{project_dir}`.
 If **GitHub repo**: clone with `git clone <url> /tmp/audit-prep-<repo-name>` and use that as `{project_dir}`.
 
-### Turn 1 — Discover & Prepare
+### Turn 1: Discover and Prepare
 
 Make these **parallel tool calls** in ONE message:
-a. **Bash:** detect framework — check for `foundry.toml`, `hardhat.config.js`, `hardhat.config.ts`
+a. **Bash:** detect framework: check for `foundry.toml`, `hardhat.config.js`, `hardhat.config.ts`
 b. **Bash:** find in-scope `.sol` files. Exclude `test/`, `script/`, `lib/`, `node_modules/`, `interfaces/`, `mocks/`. Check both `src/` and `contracts/`. If `--diff <ref>`, use `git diff --name-only <ref> -- '*.sol'`.
-c. **Bash:** find test files — `find test/ -name '*.sol' -o -name '*.ts' -o -name '*.js'`
-d. **Bash:** count total lines in scope — `wc -l` on discovered source files
+c. **Bash:** find test files: `find test/ -name '*.sol' -o -name '*.ts' -o -name '*.js'`
+d. **Bash:** count total lines in scope: `wc -l` on discovered source files
 g. **Bash:** `mkdir -p .audit-prep` -> `{bundle_dir}` = `.audit-prep` (project-relative, so agents can read it)
 h. **ToolSearch:** `mcp__sc-auditor` (for scan menu in Turn 4)
 
@@ -135,7 +135,7 @@ Then create agent bundles in a **single Bash call**:
 # File list (one per line)
 printf '%s\n' <in-scope-files> > {bundle_dir}/files.txt
 
-# Agent A — Testing (Phases 1+2)
+# Agent A: Testing (Phases 1+2)
 # Gets: framework, project dir, test metadata, source file list, instructions
 {
   printf 'framework: %s\nproject_dir: %s\n\n' "<fw>" "<dir>"
@@ -152,8 +152,8 @@ printf '%s\n' <in-scope-files> > {bundle_dir}/files.txt
   cat {ref_path}/shared-rules.md
 } > {bundle_dir}/agent-a.md
 
-# Agent B — Source Analysis (Phases 3+4+6)
-# NO SOURCE CODE — agent uses Grep/Read directly on project files
+# Agent B: Source Analysis (Phases 3+4+6)
+# NO SOURCE CODE: agent uses Grep/Read directly on project files
 {
   printf 'project_dir: %s\n\n' "<dir>"
   echo "# In-scope source files:"
@@ -164,7 +164,7 @@ printf '%s\n' <in-scope-files> > {bundle_dir}/files.txt
   cat {ref_path}/shared-rules.md
 } > {bundle_dir}/agent-b.md
 
-# Agent C — Infrastructure (Phases 5+7+8)
+# Agent C: Infrastructure (Phases 5+7+8)
 {
   printf 'framework: %s\nproject_dir: %s\n\n' "<fw>" "<dir>"
   cat {ref_path}/agents/infrastructure-agent.md
@@ -178,7 +178,7 @@ wc -l {bundle_dir}/agent-*.md
 
 Print: `<project> | <framework> | <N> files, <M> lines`
 
-### Turn 2 — Spawn
+### Turn 2: Spawn
 
 **First**, create 3 tasks so the user sees progress spinners:
 
@@ -192,7 +192,7 @@ Use TaskCreate for each, then immediately set all 3 to `in_progress` via TaskUpd
 
 **Then**, in the SAME message, spawn **3 parallel Agent calls:**
 
-**Agent A — Testing (Phases 1 + 2):**
+**Agent A: Testing (Phases 1 + 2):**
 ```
 Read your full bundle at {bundle_dir}/agent-a.md.
 Execute Phases 1 and 2 exactly as specified.
@@ -200,17 +200,17 @@ Output ONLY the PHASE/FAIL/PASS structured format from the shared rules.
 Do NOT skip any phase. Do NOT add commentary or tables.
 ```
 
-**Agent B — Source Analysis (Phases 3 + 4 + 6):**
+**Agent B: Source Analysis (Phases 3 + 4 + 6):**
 ```
 Read your full bundle at {bundle_dir}/agent-b.md.
 Execute Phases 3, 4, and 6 exactly as specified.
 Use Grep and Read to analyze the source files listed in the bundle.
-Do NOT read all source files at once — use targeted queries per check.
+Do NOT read all source files at once; use targeted queries per check.
 Output ONLY the PHASE/FAIL/PASS structured format from the shared rules.
 Do NOT skip any phase. Do NOT perform vulnerability analysis.
 ```
 
-**Agent C — Infrastructure (Phases 5 + 7 + 8):**
+**Agent C: Infrastructure (Phases 5 + 7 + 8):**
 ```
 Read your full bundle at {bundle_dir}/agent-c.md.
 Execute Phases 5, 7, and 8 exactly as specified.
@@ -220,7 +220,7 @@ Do NOT skip any phase. Do NOT add commentary or tables.
 
 As each agent completes, mark its task as `completed` via TaskUpdate.
 
-### Turn 3 — Score & Report
+### Turn 3: Score and Report
 
 **Parse** each agent's output. For each phase, extract:
 - `PHASE N |` line → phase number, name, score
@@ -246,13 +246,13 @@ As each agent completes, mark its task as `completed` via TaskUpdate.
 | 8. Project Docs | 15% |
 
 **Verdict:** 90–100 Audit Ready | 75–89 Almost Ready | 50–74 Needs Work | <50 Not Ready
-**Override:** If Phase 1 (Coverage) score < 90, verdict CANNOT be "Audit Ready" — cap at "Almost Ready" and append "(coverage below 90%)".
+**Override:** If Phase 1 (Coverage) score < 90, verdict CANNOT be "Audit Ready"; cap at "Almost Ready" and append "(coverage below 90%)".
 
 **Render the report as clean markdown** using the format from the Report Format section.
-The banner is already visible from Turn 1 — do NOT re-print it here. In `--report` files, include the banner as an uncolored code block at the top.
+The banner is already visible from Turn 1; do NOT re-print it here. In `--report` files, include the banner as an uncolored code block at the top.
 
 For each phase, build a table with Status | Finding | Recommendation columns.
-FAIL rows get a specific recommendation. PASS rows get `—` in the recommendation column.
+FAIL rows get a specific recommendation. PASS rows get `-` in the recommendation column.
 Group related PASS items into single rows where natural (e.g., "No TODOs, console imports, or commented-out code").
 
 End with the Score Summary table and Quick Wins table.
@@ -261,7 +261,7 @@ End with the Score Summary table and Quick Wins table.
 If `--report <path>`: write the markdown to the specified file path.
 If `--ci`: JSON `{"score": N, "verdict": "...", "phases": [...], "findings": [...]}`.
 
-### Turn 4 — Scan Menu
+### Turn 4: Scan Menu
 
 Skip if `--no-scan`. If `--scanner <tool>`, run directly.
 
@@ -283,7 +283,7 @@ A tool is "installed" if ANY source is available (local CLI, MCP, or skill).
 
 **Present the scan menu using AskUserQuestion with multiSelect: true.**
 
-**Always include all four options** (Slither, Aderyn, Pashov Solidity Auditor, Import custom scanner). Set each tool's description dynamically to show its availability status and source. Never omit an option just because it was not detected — show it with "(not installed)" instead.
+**Always include all four options** (Slither, Aderyn, Pashov Solidity Auditor, Import custom scanner). Set each tool's description dynamically to show its availability status and source. Never omit an option just because it was not detected; show it with "(not installed)" instead.
 
 Example AskUserQuestion call:
 ```json
@@ -312,7 +312,7 @@ Example AskUserQuestion call:
 }
 ```
 
-For the description field of Slither, Aderyn, and Pashov — set dynamically based on detection:
+For the description field of Slither, Aderyn, and Pashov, set dynamically based on detection:
 - Installed: `"... (available via MCP)"`, `"... (installed locally)"`, or `"... (available as skill)"`
 - Not installed: `"... (not installed)"`
 
@@ -324,9 +324,9 @@ Findings from scanners do NOT affect the audit-prep score.
 
 | Tool | Local CLI | MCP | Skill |
 |------|-----------|-----|-------|
-| Slither | `slither . --filter-paths "test\|script\|lib\|node_modules"` | `mcp__sc-auditor__run-slither` | — |
-| Aderyn | `aderyn .` | `mcp__sc-auditor__run-aderyn` | — |
-| Pashov Solidity Auditor | — | — | `solidity-auditor` skill |
+| Slither | `slither . --filter-paths "test\|script\|lib\|node_modules"` | `mcp__sc-auditor__run-slither` | - |
+| Aderyn | `aderyn .` | `mcp__sc-auditor__run-aderyn` | - |
+| Pashov Solidity Auditor | - | - | `solidity-auditor` skill |
 
 Priority when multiple sources available: MCP > local CLI > skill.
 

@@ -8,8 +8,8 @@ Every phase outputs this exact structure:
 PHASE <N> | <Name> | SCORE: <X>/100
 
 FAIL | <check> | <-N> | <file:line or n/a>
-desc: <one factual sentence — what is wrong>
-fix: <one sentence — specific action to fix it>
+desc: <one factual sentence explaining what is wrong>
+fix: <one sentence with a specific action to fix it>
 
 PASS | <check>
 note: <brief evidence>

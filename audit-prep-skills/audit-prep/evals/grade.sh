@@ -15,10 +15,10 @@ check() {
   TOTAL=$((TOTAL + 1))
   if [ "$result" = "pass" ]; then
     PASSED=$((PASSED + 1))
-    printf '  \033[32mPASS\033[0m  %s — %s\n' "$id" "$desc"
+    printf '  \033[32mPASS\033[0m  %s: %s\n' "$id" "$desc"
   else
     FAILED=$((FAILED + 1))
-    printf '  \033[31mFAIL\033[0m  %s — %s\n' "$id" "$desc"
+    printf '  \033[31mFAIL\033[0m  %s: %s\n' "$id" "$desc"
   fi
 }
 

@@ -19,9 +19,9 @@ audit-prep/          # Solidity audit preparation pipeline
 ## Rules
 
 - One skill, one purpose.
-- Keep SKILL.md under 500 lines — use references/ for agent-specific instructions.
-- No gas optimization checks — out of scope for audit preparation.
-- No vulnerability analysis — agents must not perform security assessments.
+- Keep SKILL.md under 500 lines; use references/ for agent-specific instructions.
+- No gas optimization checks (out of scope for audit preparation).
+- No vulnerability analysis; agents must not perform security assessments.
 - Every FAIL finding must include a specific, actionable fix.
 - Do not commit secrets, API keys, or personal data.
 - Test changes against both eval projects (Hardhat + Foundry) before submitting.
