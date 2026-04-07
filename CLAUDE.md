@@ -105,24 +105,26 @@ The `audit-prep` skill is a 4-turn Claude Code pipeline for Solidity/EVM project
 
 | Turn | What Happens |
 |------|-------------|
-| 0 | Print banner, ask for project location (cwd / local path / GitHub URL) |
-| 1 | Detect framework (Foundry/Hardhat), discover in-scope `.sol` files, build agent bundles |
-| 2 | Spawn 3 parallel agents (A: testing, B: source analysis, C: infrastructure) |
+| 0 | Print banner, ask which chain (EVM or Solana) |
+| 1 | Ask for project location, discover files, detect framework, build agent bundles |
+| 2 | Spawn 3 parallel agents (EVM) or 4 parallel agents (Solana) |
 | 3 | Parse agent output, compute weighted score, render Audit Readiness Report |
-| 4 | Optional: scan menu (Slither, Aderyn, Pashov Solidity Auditor, custom scanner) |
+| 4 | Optional: scan menu (chain-specific tools) |
 
-**8 phases with weights:**
+**Phase weights — EVM (8 phases) and Solana (10 phases):**
 
-| Phase | Checks | Weight |
-|-------|--------|--------|
-| 1. Test Coverage | Branch/line/function coverage, untested contracts, warnings | 15% |
-| 2. Test Quality | Assertion density, edge cases, negative tests, integration/fork tests | 15% |
-| 3. Documentation | NatSpec coverage, stale @param/@return, custom error @notice | 10% |
-| 4. Code Hygiene | TODOs, console imports, floating pragmas, unused imports, tx.origin, unchecked | 10% |
-| 5. Dependencies | Outdated packages, CVEs, uninitialized submodules | 10% |
-| 6. Best Practices | SafeERC20, CEI, reentrancy guards, access control, upgradeable patterns | 15% |
-| 7. Deployment | Build/test pass, deploy scripts, verification setup, .env.example | 10% |
-| 8. Project Docs | Architecture, trust assumptions, invariants, known issues, scope, MEV/oracle/upgrade | 15% |
+| Phase | EVM weight | Solana weight |
+|-------|-----------|---------------|
+| 1. Test Coverage | 15% | 12% |
+| 2. Test Quality | 15% | 12% |
+| 3. Documentation | 10% | 8% |
+| 4. Code Hygiene | 10% | 8% |
+| 5. Dependencies | 10% | 8% |
+| 6. Best Practices | 15% | 12% |
+| 7. Deployment | 10% | 8% |
+| 8. Project Docs | 15% | 12% |
+| 9. Account Validation (Solana only) | — | 10% |
+| 10. CPI Safety (Solana only) | — | 10% |
 
 **Score verdicts:** 90–100 Audit Ready | 75–89 Almost Ready | 50–74 Needs Work | <50 Not Ready
 

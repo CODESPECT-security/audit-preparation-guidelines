@@ -18,16 +18,18 @@ These skills exist to fix that. Run them before your engagement and show up prep
 
 Runs an 8-phase automated readiness check across your codebase and produces a scored report with actionable findings:
 
-| Phase | What it checks |
-|-------|---------------|
-| 1. Test Coverage | Branch/line coverage, untested contracts, compiler warnings |
-| 2. Test Quality | Assertion density, edge cases, negative tests, integration and fork tests |
-| 3. Documentation | NatSpec coverage, stale @param tags, missing @return, custom error @notice |
-| 4. Code Hygiene | TODOs, console imports, floating pragmas, unused imports, error consistency, `tx.origin` auth, unjustified `unchecked` blocks |
-| 5. Dependencies | Outdated packages, CVEs, uninitialized submodules, patched deps |
-| 6. Best Practices | SafeERC20, CEI pattern, reentrancy guards, access control, upgradeable patterns |
-| 7. Deployment | Build/test pass, deploy scripts, verification setup, .env.example |
-| 8. Project Docs | Architecture overview, trust assumptions, invariants, known issues, scope definition, MEV/oracle/upgrade docs (context-sensitive) |
+| Phase | EVM checks | Solana checks |
+|-------|-----------|---------------|
+| 1. Test Coverage | forge/hardhat coverage | cargo llvm-cov coverage |
+| 2. Test Quality | Assertion density, fuzz, fork tests | Assertion density, access control tests, Trident |
+| 3. Documentation | NatSpec coverage | Rust `///` doc comments, `# Access Control` / `# Errors` sections |
+| 4. Code Hygiene | TODOs, floating pragma, console imports | TODOs, direct arithmetic, `init_if_needed` |
+| 5. Dependencies | npm/git submodule CVEs | cargo audit, Cargo.lock, rust-toolchain.toml |
+| 6. Best Practices | SafeERC20, CEI, reentrancy guards | Raw AccountInfo, bump storage, signer validation |
+| 7. Deployment | forge build, deploy scripts | anchor build, deploy scripts, upgrade authority |
+| 8. Project Docs | Architecture, trust assumptions, scope | Same + upgrade authority (required, not conditional) |
+| 9. Account Validation | — | PDA docs, bump on-chain, `init_if_needed` guard, duplicate mutable |
+| 10. CPI Safety | — | Arbitrary CPI, program ID validation, `.reload()` |
 
 **Features:**
 - Parallel agent architecture: 3 agents run simultaneously for fast results
@@ -83,6 +85,8 @@ claude
 ```
 /audit-prep
 ```
+
+Claude will ask which chain (EVM or Solana), then which project to analyze.
 
 Or use natural language:
 
