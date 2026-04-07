@@ -163,8 +163,8 @@ After the readiness report, use the scan menu to run Slither, Aderyn, or Pashov 
 - Do not add gas optimization checks; this repo is about audit preparation, not performance.
 - Do not perform vulnerability analysis in the skills; agents must not do security assessments.
 - Do not commit secrets, API keys, or personal data.
-- Keep `SKILL.md` under 500 lines; move agent-specific logic to `references/agents/`.
+- Keep `SKILL.md` and each orchestrator under 500 lines; move agent-specific logic to `references/chains/<chain>/agents/`.
 - Every FAIL finding in a skill report must include a specific, actionable fix.
-- Test skill changes against both Hardhat and Foundry projects before committing.
-- The `audit-prep` skill is EVM/Solidity only; the guides cover EVM, Solana, and Starknet.
+- Test EVM skill changes against both Hardhat and Foundry projects; test Solana skill changes against an Anchor project before committing.
+- The `audit-prep` skill supports EVM (Solidity) and Solana (Rust/Anchor); the guides cover EVM, Solana, and Starknet.
 - Do not commit `.claude/` directory contents to this repo (keep superpowers workflow files on local branch only).
