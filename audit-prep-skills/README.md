@@ -1,22 +1,22 @@
 # CODESPECT: Claude Code Skills
 
-A collection of open-source [Claude Code](https://claude.ai/claude-code) skills built by [CODESPECT](https://codespect.net) to help development teams ship safer smart contracts.
+Open-source [Claude Code](https://claude.ai/claude-code) skills by [CODESPECT](https://codespect.net) that help development teams ship safer smart contracts.
 
-These skills automate the tedious parts of security preparation so teams can focus on building, and auditors can focus on finding real bugs instead of chasing missing documentation and untested code.
+These skills handle the repetitive parts of security preparation — so teams can focus on building, and auditors can focus on finding real vulnerabilities.
 
 ## Why
 
-Too much audit time gets wasted on preventable issues: missing tests, undocumented functions, floating pragmas, uninitialized submodules. Every hour an auditor spends on hygiene issues is an hour not spent hunting critical vulnerabilities.
+Audit time is expensive. Too much of it gets burned on avoidable issues: missing tests, undocumented functions, floating pragmas, uninitialized submodules. Every hour spent on hygiene is an hour not spent finding critical bugs.
 
-These skills exist to close that gap. Run them before your audit engagement and arrive fully prepared: better coverage, cleaner code, fewer back-and-forth cycles, and a more thorough security review.
+These skills exist to fix that. Run them before your engagement and show up prepared: stronger coverage, cleaner code, fewer review cycles, and a more effective audit.
 
 ## Skills
 
 ### audit-prep
 
-**Prepare a Solidity project for a security audit.**
+**Get your Solidity project audit-ready.**
 
-Runs an 8-phase automated readiness check across your entire codebase and produces a scored report with actionable findings:
+Runs an 8-phase automated readiness check across your codebase and produces a scored report with actionable findings:
 
 | Phase | What it checks |
 |-------|---------------|
@@ -32,7 +32,7 @@ Runs an 8-phase automated readiness check across your entire codebase and produc
 **Features:**
 - Parallel agent architecture: 3 agents run simultaneously for fast results
 - Grep-based source analysis: no full source code in context, minimal token usage
-- Every finding includes a specific fix action
+- Every finding includes a specific, actionable fix
 - Supports Foundry and Hardhat projects
 - Optional static analysis menu (Slither, Aderyn, Mythril)
 - Auto-fix mode for common issues (NatSpec stubs, pragma locking, console removal)
@@ -40,9 +40,9 @@ Runs an 8-phase automated readiness check across your entire codebase and produc
 
 ## Disclaimer
 
-This tool is **not a bug hunter**. It does not find vulnerabilities, detect complex bugs, or perform any form of security analysis. It is **not a substitute for a security audit**.
+This tool is **not a vulnerability scanner**. It does not detect bugs, analyze attack surfaces, or replace a security audit in any way.
 
-audit-prep is a simple preparation tool that checks that your project's tests, documentation, code hygiene, and infrastructure are in order *before* an audit begins, so auditors can spend their time on what matters: finding real bugs.
+audit-prep is a preparation tool. It verifies that your tests, documentation, code hygiene, and infrastructure meet a baseline before an audit starts — so auditors can spend their time on what actually matters.
 
 ## Prerequisites
 
@@ -53,8 +53,8 @@ audit-prep is a simple preparation tool that checks that your project's tests, d
 1. Clone the repo and symlink the skill into your Claude Code skills directory:
 
 ```bash
-git clone https://github.com/CDSecurity/cdsecurity-skills.git ~/cdsecurity-skills
-ln -s ~/cdsecurity-skills/audit-prep ~/.claude/skills/audit-prep
+git clone https://github.com/CODESPECT-security/audit-preparation-guidelines.git ~/audit-preparation-guidelines
+ln -s ~/audit-preparation-guidelines/audit-prep ~/.claude/skills/audit-prep
 ```
 
 2. Verify you should see `SKILL.md`:
@@ -66,7 +66,7 @@ ls ~/.claude/skills/audit-prep/SKILL.md
 To update later:
 
 ```bash
-cd ~/cdsecurity-skills && git pull
+cd ~/audit-preparation-guidelines && git pull
 ```
 
 ## Run
@@ -146,9 +146,9 @@ Scope to recent changes only:
 
 ## Contributing
 
-Found a bug? Have an idea for a new check? PRs and issues are welcome.
+Found a bug or have an idea for a new check? PRs and issues are welcome.
 
-If you build a skill that helps make smart contracts safer, we'd love to include it.
+If you build a skill that makes smart contracts safer, we'd love to include it.
 
 ## License
 
@@ -156,8 +156,8 @@ If you build a skill that helps make smart contracts safer, we'd love to include
 
 ## About CODESPECT
 
-[CODESPECT](https://codespect.net) is a smart contract security firm focused on EVM and Solana protocols. We perform manual security audits, build security tooling, and contribute to making the ecosystem safer for everyone.
+[CODESPECT](https://codespect.net) is a smart contract security firm covering EVM, Solana, and Starknet protocols. We do manual security audits, build security tooling, and work to make the ecosystem safer for everyone.
 
 ## Acknowledgments
 
-The original audit-prep skill was created by [CD Security](https://cdsecurity.io). This version has been adopted, rebranded, and extended by CODESPECT with additional checks and chain-specific enhancements.
+Inspired by an early proof-of-concept from [CD Security](https://cdsecurity.io). CODESPECT has since rebuilt the pipeline from the ground up with a new architecture, expanded checks, and chain-specific enhancements.
