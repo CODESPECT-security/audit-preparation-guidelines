@@ -1,5 +1,5 @@
 ---
-name: audit-prep
+name: audit-ready
 description: >
   CODESPECT: Prepare smart contracts for a security audit. Supports EVM (Solidity) and Solana (Rust/Anchor).
   Covers test coverage, test quality, documentation, code hygiene, dependency health, best-practice

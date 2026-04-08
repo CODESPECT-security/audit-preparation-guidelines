@@ -9,7 +9,7 @@ A library of Claude Code skills for smart contract security, built by CODESPECT.
 ## Structure
 
 ```
-audit-prep/           # Multi-chain audit preparation pipeline
+audit-ready/           # Multi-chain audit preparation pipeline
   SKILL.md            # Chain dispatcher (prints banner, asks chain, reads orchestrator)
   VERSION             # Skill version
   references/

@@ -12,7 +12,7 @@ These skills exist to fix that. Run them before your engagement and show up prep
 
 ## Skills
 
-### audit-prep
+### audit-ready
 
 **Get your smart contract project audit-ready — EVM and Solana.**
 
@@ -59,7 +59,7 @@ Runs an automated readiness check across your codebase and produces a scored rep
 
 This tool is **not a vulnerability scanner**. It does not detect bugs, analyze attack surfaces, or replace a security audit in any way.
 
-audit-prep is a preparation tool. It verifies that your tests, documentation, code hygiene, and infrastructure meet a baseline before an audit starts — so auditors can spend their time on what actually matters.
+audit-ready is a preparation tool. It verifies that your tests, documentation, code hygiene, and infrastructure meet a baseline before an audit starts — so auditors can spend their time on what actually matters.
 
 ## Prerequisites
 
@@ -71,13 +71,13 @@ audit-prep is a preparation tool. It verifies that your tests, documentation, co
 
 ```bash
 git clone https://github.com/CODESPECT-security/audit-preparation-guidelines.git ~/audit-preparation-guidelines
-ln -s ~/audit-preparation-guidelines/audit-prep ~/.claude/skills/audit-prep
+ln -s ~/audit-preparation-guidelines/audit-ready ~/.claude/skills/audit-ready
 ```
 
 2. Verify you should see `SKILL.md`:
 
 ```bash
-ls ~/.claude/skills/audit-prep/SKILL.md
+ls ~/.claude/skills/audit-ready/SKILL.md
 ```
 
 To update later:
@@ -98,7 +98,7 @@ claude
 2. Run the full audit-prep pipeline:
 
 ```
-/audit-prep
+audit-ready
 ```
 
 Claude will ask which chain (EVM or Solana), then which project to analyze.
@@ -114,15 +114,15 @@ prepare this project for audit
 Run a single phase only:
 
 ```
-/audit-prep coverage
+/audit-ready coverage
 ```
 
 ```
-/audit-prep docs
+/audit-ready docs
 ```
 
 ```
-/audit-prep hygiene
+/audit-ready hygiene
 ```
 
 Available phases: `coverage`, `quality`, `docs`, `hygiene`, `deps`, `practices`, `deploy`, `context`
@@ -130,37 +130,37 @@ Available phases: `coverage`, `quality`, `docs`, `hygiene`, `deps`, `practices`,
 Auto-fix common issues (NatSpec stubs, console removal, pragma locking, SafeERC20 wrapping):
 
 ```
-/audit-prep --fix
+/audit-ready --fix
 ```
 
 Save the report to a file:
 
 ```
-/audit-prep --report audit-prep-report.md
+/audit-ready --report audit-prep-report.md
 ```
 
 Run static analysis only:
 
 ```
-/audit-prep scan
+/audit-ready scan
 ```
 
 Skip the static analysis prompt:
 
 ```
-/audit-prep --no-scan
+/audit-ready --no-scan
 ```
 
 CI mode (JSON output, exits with score check):
 
 ```
-/audit-prep --ci --min-score 75
+/audit-ready --ci --min-score 75
 ```
 
 Scope to recent changes only:
 
 ```
-/audit-prep --diff main
+/audit-ready --diff main
 ```
 
 ## Contributing
