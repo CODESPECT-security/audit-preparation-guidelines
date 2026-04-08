@@ -1,0 +1,114 @@
+{
+  "skill_name": "audit-prep",
+  "chain": "solana",
+  "evals": [
+    {
+      "id": 1,
+      "name": "anchor-small-project",
+      "prompt": "prepare this project for audit",
+      "project_dir": "/path/to/your/anchor-project",
+      "expected_output": "Full 10-phase audit readiness report for an Anchor project. Missing rust-toolchain.toml, undocumented PDAs, no deploy scripts.",
+      "assertions": [
+        {
+          "id": "format-all-phases",
+          "text": "All 10 phases are reported (PHASE 1 through PHASE 10)",
+          "type": "programmatic",
+          "check": "grep -c 'PHASE [0-9]\\+ |' should return 10"
+        },
+        {
+          "id": "format-end-markers",
+          "text": "All phases have END PHASE markers",
+          "type": "programmatic",
+          "check": "grep -c 'END PHASE' should return 10"
+        },
+        {
+          "id": "format-fail-has-fix",
+          "text": "Every FAIL line is followed by desc: and fix: lines",
+          "type": "programmatic",
+          "check": "Every FAIL block has both desc: and fix: on subsequent lines"
+        },
+        {
+          "id": "detect-anchor",
+          "text": "Framework detected as Anchor",
+          "type": "programmatic",
+          "check": "Output contains 'anchor' or 'Anchor' in project summary line"
+        },
+        {
+          "id": "no-vuln-analysis",
+          "text": "No vulnerability analysis in output",
+          "type": "programmatic",
+          "check": "Output does NOT contain '[H-0' or '[M-0' or 'vulnerability' or 'exploit'"
+        },
+        {
+          "id": "deps-no-toolchain",
+          "text": "Phase 5 flags missing rust-toolchain.toml",
+          "type": "programmatic",
+          "check": "Phase 5 output contains 'no_toolchain_pin' FAIL"
+        },
+        {
+          "id": "account-phase-present",
+          "text": "Phase 9 (Account Validation) is reported",
+          "type": "programmatic",
+          "check": "Output contains 'PHASE 9 | Account Validation'"
+        },
+        {
+          "id": "cpi-phase-present",
+          "text": "Phase 10 (CPI Safety) is reported",
+          "type": "programmatic",
+          "check": "Output contains 'PHASE 10 | CPI Safety'"
+        },
+        {
+          "id": "quick-wins-present",
+          "text": "Report ends with Quick Wins section",
+          "type": "programmatic",
+          "check": "Output contains 'Quick Wins'"
+        },
+        {
+          "id": "upgrade-authority-checked",
+          "text": "Phase 8 checks upgrade authority documentation",
+          "type": "programmatic",
+          "check": "Phase 8 output contains 'upgrade_authority' or 'no_upgrade_authority'"
+        },
+        {
+          "id": "solana-chain-label",
+          "text": "Report header identifies chain as Solana",
+          "type": "programmatic",
+          "check": "Output contains 'Solana' in project summary line"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "anchor-multi-program",
+      "prompt": "prepare this project for audit",
+      "project_dir": "/path/to/your/multi-program-anchor-project",
+      "expected_output": "Full 10-phase report for a multi-program Anchor project with CPI calls between programs. CPI safety issues flagged.",
+      "assertions": [
+        {
+          "id": "format-all-phases",
+          "text": "All 10 phases are reported",
+          "type": "programmatic",
+          "check": "grep -c 'PHASE [0-9]\\+ |' should return 10"
+        },
+        {
+          "id": "cpi-safety-checks",
+          "text": "Phase 10 runs CPI checks (finds results, not all PASS by default)",
+          "type": "programmatic",
+          "check": "Phase 10 output contains at least one FAIL or PASS line"
+        },
+        {
+          "id": "no-vuln-analysis",
+          "text": "No vulnerability analysis in output",
+          "type": "programmatic",
+          "check": "Output does NOT contain '[H-0' or '[M-0' or 'vulnerability' or 'exploit'"
+        },
+        {
+          "id": "account-validation-checks",
+          "text": "Phase 9 checks PDA documentation",
+          "type": "programmatic",
+          "check": "Phase 9 output contains 'pda' or 'bump' or 'init_if_needed' check"
+        }
+      ]
+    }
+  ]
+}

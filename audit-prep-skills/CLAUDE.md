@@ -9,11 +9,28 @@ A library of Claude Code skills for smart contract security, built by CODESPECT.
 ## Structure
 
 ```
-audit-prep/          # Solidity audit preparation pipeline
-  SKILL.md           # Main orchestrator
-  VERSION            # Skill version
-  references/        # Agent instructions and shared rules
-  evals/             # Test cases and grading scripts
+audit-prep/           # Multi-chain audit preparation pipeline
+  SKILL.md            # Chain dispatcher (prints banner, asks chain, reads orchestrator)
+  VERSION             # Skill version
+  references/
+    shared-rules.md   # Output format and DO NOT rules (shared across all chains)
+    chains/
+      evm/
+        orchestrator.md         # EVM pipeline (Turns 0-4)
+        agents/
+          testing-agent.md      # Phases 1+2 (coverage, quality)
+          source-analysis-agent.md  # Phases 3+4+6 (docs, hygiene, best practices)
+          infrastructure-agent.md   # Phases 5+7+8 (deps, deployment, project docs)
+      solana/
+        orchestrator.md         # Solana pipeline (Turns 0-4)
+        agents/
+          testing-agent.md      # Phases 1+2 (Solana)
+          source-analysis-agent.md  # Phases 3+4+6 (Solana)
+          infrastructure-agent.md   # Phases 5+7+8 (Solana)
+          account-validation-agent.md  # Phases 9+10 (Solana-specific)
+  evals/
+    evm/              # EVM eval test cases and grading script
+    solana/           # Solana eval test cases and grading script
 ```
 
 ## Rules
