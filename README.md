@@ -78,7 +78,7 @@ Not sure where to start? Use the [General Pre-Audit Checklist](./CHECKLIST.md); 
 Once your code is ready, use the **audit-prep** skill to run an automated readiness check against your Solidity project. It scores your project across 8 phases (test coverage, test quality, documentation, code hygiene, dependencies, best practices, deployment readiness, and project documentation) and produces a ranked report with specific fixes.
 
 ```
-/audit-prep
+/audit-ready
 ```
 
 The skill is available in the [`audit-prep-skills/`](./audit-prep-skills/README.md) directory. It does not find vulnerabilities; it checks that everything auditors expect to see is in place before the engagement begins.
