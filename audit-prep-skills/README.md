@@ -14,30 +14,45 @@ These skills exist to fix that. Run them before your engagement and show up prep
 
 ### audit-prep
 
-**Get your Solidity project audit-ready.**
+**Get your smart contract project audit-ready — EVM and Solana.**
 
-Runs an 8-phase automated readiness check across your codebase and produces a scored report with actionable findings:
+Runs an automated readiness check across your codebase and produces a scored report with actionable findings.
 
-| Phase | EVM checks | Solana checks |
-|-------|-----------|---------------|
-| 1. Test Coverage | forge/hardhat coverage | cargo llvm-cov coverage |
-| 2. Test Quality | Assertion density, fuzz, fork tests | Assertion density, access control tests, Trident |
-| 3. Documentation | NatSpec coverage | Rust `///` doc comments, `# Access Control` / `# Errors` sections |
-| 4. Code Hygiene | TODOs, floating pragma, console imports | TODOs, direct arithmetic, `init_if_needed` |
-| 5. Dependencies | npm/git submodule CVEs | cargo audit, Cargo.lock, rust-toolchain.toml |
-| 6. Best Practices | SafeERC20, CEI, reentrancy guards | Raw AccountInfo, bump storage, signer validation |
-| 7. Deployment | forge build, deploy scripts | anchor build, deploy scripts, upgrade authority |
-| 8. Project Docs | Architecture, trust assumptions, scope | Same + upgrade authority (required, not conditional) |
-| 9. Account Validation | — | PDA docs, bump on-chain, `init_if_needed` guard, duplicate mutable |
-| 10. CPI Safety | — | Arbitrary CPI, program ID validation, `.reload()` |
+#### EVM (Solidity) — 8 phases
+
+| Phase | Checks |
+|-------|--------|
+| 1. Test Coverage | forge/hardhat coverage, compiler warnings |
+| 2. Test Quality | Assertion density, fuzz tests, fork tests |
+| 3. Documentation | NatSpec on all public/external functions |
+| 4. Code Hygiene | TODOs, floating pragma, console imports |
+| 5. Dependencies | npm/git submodule CVEs |
+| 6. Best Practices | SafeERC20, CEI pattern, reentrancy guards |
+| 7. Deployment | forge build, deploy scripts |
+| 8. Project Docs | Architecture, trust assumptions, scope |
+
+#### Solana (Rust/Anchor) — 10 phases
+
+| Phase | Checks |
+|-------|--------|
+| 1. Test Coverage | cargo llvm-cov coverage, anchor build warnings |
+| 2. Test Quality | Assertion density, access control tests, Trident fuzz |
+| 3. Documentation | Rust `///` doc comments, `# Access Control` / `# Errors` sections |
+| 4. Code Hygiene | TODOs, direct arithmetic, `init_if_needed`, `msg!` debug logs |
+| 5. Dependencies | cargo audit, Cargo.lock, rust-toolchain.toml |
+| 6. Best Practices | Raw AccountInfo, bump storage, signer validation, events |
+| 7. Deployment | anchor build, deploy scripts, upgrade authority disposition |
+| 8. Project Docs | Architecture, trust assumptions, scope, upgrade authority (required) |
+| 9. Account Validation | PDA docs, bump on-chain, `init_if_needed` guard, duplicate mutable accounts |
+| 10. CPI Safety | Arbitrary CPI, program ID validation, `.reload()` after CPI |
 
 **Features:**
-- Parallel agent architecture: 3 agents run simultaneously for fast results
+- Parallel agent architecture: 3 agents (EVM) or 4 agents (Solana) run simultaneously
 - Grep-based source analysis: no full source code in context, minimal token usage
 - Every finding includes a specific, actionable fix
-- Supports Foundry and Hardhat projects
-- Optional static analysis menu (Slither, Aderyn, Mythril)
-- Auto-fix mode for common issues (NatSpec stubs, pragma locking, console removal)
+- Supports Foundry and Hardhat (EVM) and Anchor (Solana)
+- Optional static analysis menu: Slither, Aderyn, Pashov (EVM) or Trident, Soteria (Solana)
+- Auto-fix mode for common issues (NatSpec stubs, pragma locking, console removal) — EVM only
 - CI mode with JSON output and configurable score threshold
 
 ## Disclaimer
