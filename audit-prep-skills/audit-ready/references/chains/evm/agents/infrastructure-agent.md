@@ -130,17 +130,38 @@ If any found: Grep README.md and docs/ for upgrade policy: `proxy|upgradeable|up
 Deduction: -15 if proxy pattern detected but no upgradeability policy documented.
 Minimum required: proxy type, who controls upgrades, and what can/cannot be changed.
 
+### Check 10: Off-Chain Operator documentation (conditional, -5)
+Only run if `has_offchain_operators: yes`. Skip entirely otherwise — do NOT penalize.
+Grep README.md and docs/ for operator documentation keywords: `keeper|relayer|operator|sequencer|bot|off.?chain|automated|trigger|job`
+Also check for a dedicated section (e.g., "Operators", "Keepers", "Roles") in README or docs/.
+Deduction: -5 if off-chain operators are used but no documentation is found.
+Minimum required: what the operator does, what permissions or trust it holds, and what happens if it misbehaves or goes offline.
+
+### Check 11: Non-Standard ERC20 documentation (conditional, -5)
+Only run if `has_nonstandard_erc20: yes`. Skip entirely otherwise — do NOT penalize.
+Grep README.md and docs/ for token behavior keywords: `fee.?on.?transfer|rebase|rebasing|non.?standard|deflationary|elastic|weird.?token|transfer.?tax|blacklist|pausable`
+Deduction: -5 if non-standard ERC20 support is claimed but no documentation is found.
+Minimum required: which token behaviors are explicitly supported, which are explicitly unsupported, and any handling assumptions baked into the contracts.
+
 ### Output:
 ```
 PHASE 8 | Project Documentation | SCORE: 45/100
 
-FAIL | no_trust_model | -25 | n/a
+FAIL | no_trust_model | -15 | n/a
 desc: No trust assumptions or threat model documented
 fix: Create SECURITY.md with admin roles, trust boundaries, known risks
 
 FAIL | no_scope_definition | -10 | n/a
 desc: No audit scope file defining in-scope contracts and target chains
 fix: Create scope.md listing contracts in scope, target chains, and entry points
+
+FAIL | no_offchain_operator_docs | -5 | n/a
+desc: Project uses off-chain operators but no documentation of their role, trust level, or failure handling
+fix: Document operator responsibilities, trust assumptions, and liveness dependencies in README or SECURITY.md
+
+FAIL | no_nonstandard_erc20_docs | -5 | n/a
+desc: Project supports non-standard ERC20 behavior but no documentation of supported/unsupported token types
+fix: Document which token behaviors are in scope (e.g., fee-on-transfer, rebasing) and any explicit exclusions
 
 PASS | architecture
 note: README contains system overview with contract descriptions

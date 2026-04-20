@@ -142,6 +142,18 @@ Full example: [`examples/code-patterns.sol`](./examples/code-patterns.sol)
 
 ## 3. EVM-Specific Considerations
 
+### Off-Chain Operators
+
+If your protocol relies on any off-chain components - keepers, bots, relayers, price pushers, liquidators - document each one explicitly. For every off-chain operator, auditors need to know: what it does, how frequently it is expected to run, what breaks or degrades if it goes down or acts maliciously, and whether it has any on-chain privileges. A protocol that silently depends on a keeper running every 5 minutes to stay solvent is a very different risk profile than one that is fully trustless - auditors need to know which one they are looking at before they start.
+
+### Non-Standard ERC20 Behavior
+
+If your protocol interacts with any token that has non-standard behavior (fee-on-transfer, rebasing, USDT-style non-reverting failures, blacklists), document it explicitly. Auditors need to know which tokens are in scope and what assumptions the code makes about them.
+
+### Rounding and Precision
+
+Document the intended rounding direction on every division operation. Auditors are going to question every rounding decision, documenting will help them to understand your intentions.
+
 ### MEV (Maximal Extractable Value)
 
 Document any function where transaction ordering affects outcomes. Auditors look for:

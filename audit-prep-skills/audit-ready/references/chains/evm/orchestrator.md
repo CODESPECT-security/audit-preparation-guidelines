@@ -100,6 +100,38 @@ If **Current directory**: use the cwd as `{project_dir}`.
 If **Local path**: user provides a path, use it as `{project_dir}`.
 If **GitHub repo**: clone with `git clone <url> /tmp/audit-prep-<repo-name>` and use that as `{project_dir}`.
 
+### Turn 0 (continued): Project Characteristics
+
+After the project path is resolved, ask two follow-up questions **in the same turn**:
+
+```json
+{
+  "question": "Does the project use Off-Chain Operators? (e.g., keepers, relayers, bots, sequencers, MEV searchers)",
+  "header": "Off-Chain Operators",
+  "multiSelect": false,
+  "options": [
+    { "label": "Yes", "description": "The project relies on off-chain actors to trigger or relay transactions" },
+    { "label": "No", "description": "No off-chain operators involved" }
+  ]
+}
+```
+
+```json
+{
+  "question": "Does the project support Non-Standard ERC20 Behavior?",
+  "header": "Non-Standard ERC20",
+  "multiSelect": false,
+  "options": [
+    { "label": "Yes", "description": "e.g., fee-on-transfer, rebasing, non-standard return values, blacklists, pausable tokens" },
+    { "label": "No", "description": "Only standard ERC20 tokens are used" }
+  ]
+}
+```
+
+Store the answers as:
+- `{has_offchain_operators}` = `yes` or `no`
+- `{has_nonstandard_erc20}` = `yes` or `no`
+
 ### Turn 1: Discover and Prepare
 
 Make these **parallel tool calls** in ONE message:
@@ -145,7 +177,7 @@ printf '%s\n' <in-scope-files> > {bundle_dir}/files.txt
 
 # Agent C: Infrastructure (Phases 5+7+8)
 {
-  printf 'framework: %s\nproject_dir: %s\n\n' "<fw>" "<dir>"
+  printf 'framework: %s\nproject_dir: %s\nhas_offchain_operators: %s\nhas_nonstandard_erc20: %s\n\n' "<fw>" "<dir>" "<has_offchain_operators>" "<has_nonstandard_erc20>"
   cat {chain_agents_path}/infrastructure-agent.md
   echo ""
   cat {shared_rules}
